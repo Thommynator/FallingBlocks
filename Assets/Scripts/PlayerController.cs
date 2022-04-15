@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using MoreMountains.Feedbacks;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -22,7 +23,10 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-
+        if (transform.position.y < -50)
+        {
+            SceneManager.LoadScene("GameScene");
+        }
     }
 
     void FixedUpdate()

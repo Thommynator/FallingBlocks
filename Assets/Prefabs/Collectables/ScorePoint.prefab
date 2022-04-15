@@ -1144,6 +1144,7 @@ GameObject:
   - component: {fileID: 2995870517160283702}
   - component: {fileID: 2995870517160283703}
   - component: {fileID: 2995870517160283696}
+  - component: {fileID: 3736969460401561917}
   m_Layer: 0
   m_Name: ScorePoint
   m_TagString: Untagged
@@ -1201,6 +1202,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 0
+--- !u!114 &3736969460401561917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2995870517160283697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b282a10233eb2bd41bb5f775073ca272, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lowerHeightThreshold: -50
+  upperHeightThreshold: 200
+  hasMaxLiveTime: 1
+  maxLiveTime: 30
 --- !u!1 &2995870517328355584
 GameObject:
   m_ObjectHideFlags: 0
