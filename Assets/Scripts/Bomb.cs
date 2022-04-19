@@ -18,6 +18,10 @@ public class Bomb : MonoBehaviour
     void Update()
     {
         AdjustOrientation();
+        if (transform.position.y < -50 || transform.position.y > 200)
+        {
+            BombPool.Instance.ReleaseBomb(this);
+        }
     }
 
     public void FireTo(Vector3 target, float shootingAngleInDeg)
@@ -75,16 +79,10 @@ public class Bomb : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            print("GAME OVER");
-            _explosion.Explode();
-            Destroy(this.gameObject);
-        }
-        if (collision.gameObject.CompareTag("Cube"))
+        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Cube"))
         {
             _explosion.Explode();
-            Destroy(this.gameObject);
+            BombPool.Instance.ReleaseBomb(this);
         }
     }
 

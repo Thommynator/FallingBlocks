@@ -6,7 +6,6 @@ public class BombShootingEnemy : FollowerEnemy
 {
 
     [SerializeField] private float _shootingAngleInDeg;
-    [SerializeField] private Bomb _bombPrefab;
     [SerializeField] private float _shootingCooldownInSeconds;
 
 
@@ -25,7 +24,7 @@ public class BombShootingEnemy : FollowerEnemy
     {
         while (true)
         {
-            Bomb bomb = GameObject.Instantiate<Bomb>(_bombPrefab, transform.position, Quaternion.identity);
+            Bomb bomb = BombPool.Instance.GetBomb();
             bomb.FireTo(_target.transform.position, _shootingAngleInDeg);
             yield return new WaitForSeconds(_shootingCooldownInSeconds);
         }

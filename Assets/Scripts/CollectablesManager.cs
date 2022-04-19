@@ -8,9 +8,8 @@ public class CollectablesManager : MonoBehaviour
 
     public static CollectablesManager Instance;
     private int _collectedScorePoints = 0;
-    private int _collectedSpaceJumps;
-    [SerializeField] private int _maxSpaceJumps = 0;
-
+    [SerializeField] private int _collectedSpaceJumps;
+    [SerializeField] private int _maxSpaceJumps;
     [SerializeField] private TextMeshProUGUI _scorePointText;
     [SerializeField] private TextMeshProUGUI _spaceJumpsText;
     [SerializeField] private int _spawnIntervalSeconds;

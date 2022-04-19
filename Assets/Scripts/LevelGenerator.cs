@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.Pool;
 
 public class LevelGenerator : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class LevelGenerator : MonoBehaviour
 
     private Vector3 minCoordinates;
     private Vector3 maxCoordinates;
-
+    private ObjectPool<Cube> _cubePool;
 
     private Dictionary<Vector2Int, Cube> _map;
 
@@ -22,6 +23,21 @@ public class LevelGenerator : MonoBehaviour
     {
         Instance = this;
         _map = new Dictionary<Vector2Int, Cube>();
+        _cubePool = new ObjectPool<Cube>(
+            () => Instantiate<Cube>(_cubePrefab),
+            cube =>
+            {
+                cube.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                cube.GetComponent<BoxCollider>().enabled = true;
+                cube.GetComponent<Rigidbody>().isKinematic = true;
+                cube.gameObject.SetActive(true);
+            },
+            cube => cube.gameObject.SetActive(false),
+            cube => Destroy(cube.gameObject),
+            true,
+            _rows * _cols,
+             _rows * _cols + 50
+            );
     }
 
     void Start()
@@ -69,14 +85,16 @@ public class LevelGenerator : MonoBehaviour
 
         Vector2Int position2D = position.To2dInt();
 
-        var cube = Instantiate<Cube>(_cubePrefab, new Vector3(position2D.x, 0, position2D.y), Quaternion.identity);
-        SetCubeAt(cube, position2D);
+        var cube = _cubePool.Get();
+        cube.transform.position = new Vector3(position2D.x, 0, position2D.y);
         cube.transform.SetParent(this.gameObject.transform);
+        SetCubeAt(cube, position2D);
     }
 
-    public void ResetCubeAt(Vector3 position)
+    public void ResetCube(Cube cube)
     {
-        SetCubeAt(null, position.To2dInt());
+        _cubePool.Release(cube);
+        SetCubeAt(null, cube.transform.position.To2dInt());
     }
 
     private void SetCubeAt(Cube cube, Vector2Int position)

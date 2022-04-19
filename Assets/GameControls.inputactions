@@ -288,6 +288,17 @@
                     "action": "SpaceJump",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3dcdb4eb-38ae-419c-aac5-de2ecf581443",
+                    "path": "<Gamepad>/leftStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SpaceJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
