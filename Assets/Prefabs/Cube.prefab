@@ -135,6 +135,7 @@ MonoBehaviour:
   _fallDelaySeconds: 0.2
   _touchedFeedback: {fileID: 6984116154646267617}
   _fallingFeedback: {fileID: 2219325232872847845}
+  _originalMaterial: {fileID: 2100000, guid: 8cc0fc676f3c21148b203d47f2ee74d4, type: 2}
 --- !u!65 &873059604971108955
 BoxCollider:
   m_ObjectHideFlags: 0

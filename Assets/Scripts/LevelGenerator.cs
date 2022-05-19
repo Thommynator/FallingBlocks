@@ -32,7 +32,11 @@ public class LevelGenerator : MonoBehaviour
                 cube.GetComponent<Rigidbody>().isKinematic = true;
                 cube.gameObject.SetActive(true);
             },
-            cube => cube.gameObject.SetActive(false),
+            cube =>
+            {
+                cube.gameObject.SetActive(false);
+                cube.GetComponent<Cube>().ResetToOriginalColor();
+            },
             cube => Destroy(cube.gameObject),
             true,
             _rows * _cols,

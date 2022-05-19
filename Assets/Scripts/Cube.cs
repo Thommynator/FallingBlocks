@@ -9,10 +9,12 @@ public class Cube : MonoBehaviour
     private Rigidbody _body;
     [SerializeField] private MMF_Player _touchedFeedback;
     [SerializeField] private MMF_Player _fallingFeedback;
+    [SerializeField] private Material _originalMaterial;
 
     void Start()
     {
         _body = GetComponent<Rigidbody>();
+        GetComponentInChildren<MeshRenderer>().material = _originalMaterial;
     }
 
     void Update()
@@ -46,6 +48,11 @@ public class Cube : MonoBehaviour
         yield return new WaitForSeconds(_fallDelaySeconds);
         GetComponent<BoxCollider>().enabled = false;
         _body.isKinematic = false;
+    }
+
+    public void ResetToOriginalColor()
+    {
+        GetComponentInChildren<MeshRenderer>().material = _originalMaterial;
     }
 
 
