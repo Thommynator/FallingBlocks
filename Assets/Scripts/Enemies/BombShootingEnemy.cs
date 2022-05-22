@@ -25,6 +25,7 @@ public class BombShootingEnemy : FollowerEnemy
         while (true)
         {
             Bomb bomb = BombPool.Instance.GetBomb();
+            bomb.transform.position = transform.position + Vector3.up;
             bomb.FireTo(_target.transform.position, _shootingAngleInDeg);
             yield return new WaitForSeconds(_shootingCooldownInSeconds);
         }
