@@ -2272,7 +2272,9 @@
        height="60.247631"
        x="1851.6914"
        y="857.42194"
-       ry="14.478114" />
+       ry="14.478114"
+       inkscape:export-xdpi="202"
+       inkscape:export-ydpi="202" />
     <image
        width="67.73333"
        height="67.73333"
@@ -2339,7 +2341,9 @@ TkSuQmCC
        style="font-style:normal;font-weight:normal;font-size:48.1599px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#333333;fill-opacity:1;stroke:none;stroke-width:1.204;"
        x="1879.5184"
        y="902.24298"
-       id="text1294"><tspan
+       id="text1294"
+       inkscape:export-xdpi="202"
+       inkscape:export-ydpi="202"><tspan
          sodipodi:role="line"
          id="tspan1292"
          x="1879.5184"

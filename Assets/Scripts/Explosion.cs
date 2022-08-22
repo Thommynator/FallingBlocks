@@ -22,7 +22,6 @@ public class Explosion : MonoBehaviour
         {
             if (hitObject.CompareTag("Player"))
             {
-                Debug.Log(Vector3.Distance(hitObject.transform.position, this.transform.position));
                 hitObject.transform.parent.GetComponent<Rigidbody>().AddExplosionForce(50, this.transform.position, 3 * _explosionRadius, 1, ForceMode.Impulse);
             }
 

@@ -17,7 +17,7 @@ public class FollowerEnemy : BaseEnemy
 
     void Update()
     {
-        LookAtTarget();
+        LookInDrivingDirection();
     }
 
     void FixedUpdate()
@@ -34,7 +34,7 @@ public class FollowerEnemy : BaseEnemy
         _body.AddForce(steering);
     }
 
-    private void LookAtTarget()
+    private void LookInDrivingDirection()
     {
         Vector3 direction = (transform.position + _body.velocity).InXZPlane(transform.position.y);
         Debug.DrawLine(transform.position, direction, Color.white);

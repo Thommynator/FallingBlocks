@@ -26,7 +26,7 @@ public class RepairBotEnemy : FollowerEnemy
     {
         while (!_explodeNearPlayer.IsExploded())
         {
-            List<Vector3> positions = GetSurroundingPositionsInCircle(transform.position, _repairRange);
+            List<Vector3> positions = GetSurroundingPositionsInSquare(transform.position, _repairRange);
             foreach (var position in positions)
             {
                 LevelGenerator.Instance.CreateNewCubeAtIfNotExisting(position);
@@ -36,7 +36,7 @@ public class RepairBotEnemy : FollowerEnemy
     }
 
     /** 
-    * Gets all 2D integer positions arround the current position inside the _repairRange radius.
+    * Gets all 2D integer positions arround the current position inside the radius in a circle.
     */
     public List<Vector3> GetSurroundingPositionsInCircle(Vector3 position, int radius)
     {
@@ -47,7 +47,23 @@ public class RepairBotEnemy : FollowerEnemy
             int zMax = Mathf.Approximately(rootValue, 0.0f) ? 0 : Mathf.FloorToInt(Mathf.Sqrt(rootValue));
             for (int z = -zMax; z <= zMax; z++)
             {
-                positions.Add(new Vector3(transform.position.x + x, 0, transform.position.z + z));
+                positions.Add(new Vector3(position.x + x, 0, position.z + z));
+            }
+        }
+        return positions;
+    }
+
+    /** 
+    * Gets all 2D integer positions arround the current position inside the radius in a square.
+    */
+    public List<Vector3> GetSurroundingPositionsInSquare(Vector3 position, int radius)
+    {
+        List<Vector3> positions = new List<Vector3>();
+        for (int x = -radius; x <= radius; x++)
+        {
+            for (int z = -radius; z <= radius; z++)
+            {
+                positions.Add(new Vector3(position.x + x, 0, position.z + z));
             }
         }
         return positions;

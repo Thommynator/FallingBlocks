@@ -27,20 +27,16 @@ public class LevelGenerator : MonoBehaviour
             () => Instantiate<Cube>(_cubePrefab),
             cube =>
             {
-                cube.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                cube.GetComponent<BoxCollider>().enabled = true;
-                cube.GetComponent<Rigidbody>().isKinematic = true;
-                cube.gameObject.SetActive(true);
+                cube.SpawnActions();
             },
             cube =>
             {
-                cube.gameObject.SetActive(false);
-                cube.GetComponent<Cube>().ResetToOriginalColor();
+                cube.DeactivationActions();
             },
             cube => Destroy(cube.gameObject),
             true,
             _rows * _cols,
-             _rows * _cols + 50
+            Mathf.RoundToInt((_rows * _cols) * 1.3f)
             );
     }
 

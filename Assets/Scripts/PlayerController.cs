@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (transform.position.y < -50)
+        if (transform.position.y < -20)
         {
             SceneManager.LoadScene("GameScene");
         }

@@ -9,6 +9,9 @@ public class Bomb : MonoBehaviour
     private Vector3 _target;
     private Explosion _explosion;
 
+    // a bomb was triggered several times when colliding with more than one object, which caused problems
+    private bool _isTriggered;
+
     void Awake()
     {
         _body = GetComponent<Rigidbody>();
@@ -61,29 +64,31 @@ public class Bomb : MonoBehaviour
         return new Vector3(vx, vy, vz);
     }
 
-    /**
-    * While flying up, the bomb aims in the shooting direction. 
-    * When falling down, the bomb aims in the target direction.
-    */
     private void AdjustOrientation()
     {
-        if (_body.velocity.y > 0)
-        {
-            transform.LookAt(transform.position + _body.velocity, Vector3.up);
-        }
-        else
-        {
-            transform.LookAt(_target + Vector3.down, Vector3.up);
-        }
+        transform.LookAt(transform.position + _body.velocity, Vector3.up);
     }
+
+    public void ResetTrigger()
+    {
+        _isTriggered = false;
+    }
+
+
 
     void OnCollisionEnter(Collision collision)
     {
+        if (_isTriggered)
+        {
+            return;
+        }
+
         if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Cube"))
         {
             _explosion.Explode();
             BombPool.Instance.ReleaseBomb(this);
         }
+        _isTriggered = true;
     }
 
 }

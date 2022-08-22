@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 3624797588495395612}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 6, y: 6, z: 6}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8956379863005884131}
@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _explosion: {fileID: 8769666960090701640}
-  _distance: 5
+  _distance: 3
 --- !u!114 &392743147803819644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,7 +164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxSpeed: 3
   _steeringForce: 5
-  _repairRange: 5
+  _repairRange: 3
   _repairIntervalSeconds: 0.05
 --- !u!1 &8956379863018549809
 GameObject:

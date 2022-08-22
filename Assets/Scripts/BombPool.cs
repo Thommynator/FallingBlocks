@@ -20,6 +20,7 @@ public class BombPool : MonoBehaviour
             },
             bomb =>
             {
+                bomb.ResetTrigger();
                 bomb.GetComponent<Rigidbody>().velocity = Vector3.zero;
                 bomb.gameObject.SetActive(true);
             },
@@ -27,7 +28,7 @@ public class BombPool : MonoBehaviour
             bomb => Destroy(bomb.gameObject),
             true,
             10,
-            30
+            40
         );
     }
 

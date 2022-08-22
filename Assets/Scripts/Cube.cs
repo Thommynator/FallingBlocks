@@ -7,23 +7,43 @@ public class Cube : MonoBehaviour
 {
     [SerializeField] private float _fallDelaySeconds;
     private Rigidbody _body;
+
+    [SerializeField] private MMF_Player _spawnFeedback;
     [SerializeField] private MMF_Player _touchedFeedback;
     [SerializeField] private MMF_Player _fallingFeedback;
     [SerializeField] private Material _originalMaterial;
 
-    void Start()
+    void Awake()
     {
         _body = GetComponent<Rigidbody>();
         GetComponentInChildren<MeshRenderer>().material = _originalMaterial;
+        _spawnFeedback.Initialization();
+        _touchedFeedback.Initialization();
+        _fallingFeedback.Initialization();
     }
 
     void Update()
     {
-        if (transform.position.y < -50)
+        if (transform.position.y < -10)
         {
             LevelGenerator.Instance.ResetCube(this);
 
         }
+    }
+
+    public void SpawnActions()
+    {
+        _body.velocity = Vector3.zero;
+        GetComponent<BoxCollider>().enabled = true;
+        GetComponent<Rigidbody>().isKinematic = true;
+        this.gameObject.SetActive(true);
+        _spawnFeedback.PlayFeedbacks();
+    }
+
+    public void DeactivationActions()
+    {
+        this.gameObject.SetActive(false);
+        ResetToOriginalColor();
     }
 
     void OnCollisionEnter(Collision collision)
