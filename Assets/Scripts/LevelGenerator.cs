@@ -21,6 +21,7 @@ public class LevelGenerator : MonoBehaviour
 
     void Awake()
     {
+        Debug.Log("Instantiate Cube Pool");
         Instance = this;
         _map = new Dictionary<Vector2Int, Cube>();
         _cubePool = new ObjectPool<Cube>(
