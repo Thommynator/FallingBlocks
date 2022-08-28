@@ -8,9 +8,11 @@ public class CollectablesManager : MonoBehaviour
 
     public static CollectablesManager Instance;
     private int _collectedScorePoints = 0;
+    private int _highscore;
     [SerializeField] private int _collectedSpaceJumps;
     [SerializeField] private int _maxSpaceJumps;
     [SerializeField] private TextMeshProUGUI _scorePointText;
+    [SerializeField] private TextMeshProUGUI _highscorePointText;
     [SerializeField] private TextMeshProUGUI _spaceJumpsText;
     [SerializeField] private int _spawnIntervalSeconds;
     [SerializeField] private int _maxExistingCollectables;
@@ -20,6 +22,7 @@ public class CollectablesManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
+        _highscore = PlayerPrefs.GetInt("highscore", 0);
     }
 
     void Start()
@@ -61,13 +64,24 @@ public class CollectablesManager : MonoBehaviour
 
     private void CollectScorePoint()
     {
-        _collectedScorePoints++;
+        _collectedScorePoints += 10;
+        UpdateHighscore();
         UpdateScoreUi();
+    }
+
+    private void UpdateHighscore()
+    {
+        if(_collectedScorePoints > _highscore)
+        {
+            _highscore = _collectedScorePoints;
+            PlayerPrefs.SetInt("highscore", _highscore);
+        }
     }
 
     private void UpdateScoreUi()
     {
-        _scorePointText.text = $"{_collectedScorePoints * 10}";
+        _scorePointText.text = _collectedScorePoints.ToString();
+        _highscorePointText.text = _highscore.ToString();
     }
 
     private void UpdateSpaceJumpsUi()
