@@ -25,7 +25,7 @@ public class LevelGenerator : MonoBehaviour
         _map = new Dictionary<Vector2Int, Cube>();
         _cubePool = new ObjectPool<Cube>(
             () => Instantiate<Cube>(_cubePrefab),
-            cube =>
+            cube => 
             {
                 cube.SpawnActions();
             },

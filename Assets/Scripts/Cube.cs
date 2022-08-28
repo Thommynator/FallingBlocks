@@ -37,7 +37,8 @@ public class Cube : MonoBehaviour
         GetComponent<BoxCollider>().enabled = true;
         GetComponent<Rigidbody>().isKinematic = true;
         this.gameObject.SetActive(true);
-        _spawnFeedback.PlayFeedbacks();
+        // _spawnFeedback.PlayFeedbacks();
+
     }
 
     public void DeactivationActions()
