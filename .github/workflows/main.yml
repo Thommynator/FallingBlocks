@@ -46,9 +46,9 @@ jobs:
           versioning: Semantic
           targetPlatform: WebGL
           
-      - name: My first step
-        run: echo This event is a pull request that had an assignee removed.
-      
+      - name: Print Version Number
+        run:  echo Project Version: ${{ steps.unityBuild.outputs.buildVersion }}        
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
