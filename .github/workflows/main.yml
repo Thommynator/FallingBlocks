@@ -1,6 +1,6 @@
-name: Actions 😎
+name: Actions ???
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   buildWebGL:
@@ -36,14 +36,26 @@ jobs:
             Library-build-
             Library-
       - uses: game-ci/unity-builder@v2
+        id: unity-build
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
+          versioning: Semantic
           targetPlatform: WebGL
+      - run: echo 'Project Version: ${{ steps.unity-build.outputs.buildVersion }}'
 
       - uses: actions/upload-artifact@v2
         with:
           name: build-WebGL
           path: build/WebGL
+
+      - uses: manleydev/butler-publish-itchio-action@master
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+          CHANNEL: html5
+          ITCH_GAME: falling-blocks
+          ITCH_USER: Exenter
+          PACKAGE: build/WebGL
+          VERSION: ${{ steps.unity-build.outputs.buildVersion }}
