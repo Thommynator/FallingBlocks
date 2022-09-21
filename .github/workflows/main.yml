@@ -53,7 +53,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: build-WebGL
-          path: build
+          path: build/WebGL/WebGL
 
       - name: Butler Deploy
         uses: manleydev/butler-publish-itchio-action@master
@@ -62,5 +62,5 @@ jobs:
           CHANNEL: html5
           ITCH_GAME: falling-blocks
           ITCH_USER: Exenter
-          PACKAGE: build/WebGL
+          PACKAGE: build/WebGL/WebGL
           VERSION: ${{ steps.unityBuild.outputs.buildVersion }}
