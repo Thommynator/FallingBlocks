@@ -13,6 +13,9 @@ public class Cube : MonoBehaviour
     [SerializeField] private MMF_Player _fallingFeedback;
     [SerializeField] private Material _originalMaterial;
 
+    private int _respawnHeight = -5;
+    private bool _isBelowRespawnHeight = false;
+
     void Awake()
     {
         _body = GetComponent<Rigidbody>();
@@ -24,10 +27,11 @@ public class Cube : MonoBehaviour
 
     void Update()
     {
-        if (transform.position.y < -10)
+        if (!_isBelowRespawnHeight && transform.position.y < _respawnHeight)
         {
-            LevelGenerator.Instance.ResetCube(this);
-
+            // Cube can be resetted when below the respawn height, but only once
+            _isBelowRespawnHeight=true;
+            StartCoroutine(LevelGenerator.Instance.ResetCube(this));
         }
     }
 
@@ -44,6 +48,7 @@ public class Cube : MonoBehaviour
     public void DeactivationActions()
     {
         this.gameObject.SetActive(false);
+        this._isBelowRespawnHeight = false;
         ResetToOriginalColor();
     }
 

@@ -92,10 +92,13 @@ public class LevelGenerator : MonoBehaviour
         SetCubeAt(cube, position2D);
     }
 
-    public void ResetCube(Cube cube)
+    public IEnumerator ResetCube(Cube cube)
     {
-        _cubePool.Release(cube);
+        // first mark the Cube position in the grid as free, which allows a respawn,
+        // later release the Cube back to the pool
         SetCubeAt(null, cube.transform.position.To2dInt());
+        yield return new WaitForSeconds(2);
+        _cubePool.Release(cube);
     }
 
     private void SetCubeAt(Cube cube, Vector2Int position)
