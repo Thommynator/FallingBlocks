@@ -44,7 +44,9 @@ jobs:
         with:
           versioning: Semantic
           targetPlatform: WebGL
-      - run: echo 'Project Version: ${{ steps.unity-build.outputs.buildVersion }}'
+          
+      - name: Print Version Number
+        run: echo 'Project Version: ${{ steps.unity-build.outputs.buildVersion }}'
 
       - uses: actions/upload-artifact@v2
         with:
