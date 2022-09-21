@@ -1,10 +1,10 @@
-name: Actions ???
+name: Build & Deploy
 
 on: [push]
 
 jobs:
   buildWebGL:
-    name: Build for WebGL ???
+    name: Build and deploy to itch.io
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
