@@ -47,7 +47,7 @@ jobs:
           targetPlatform: WebGL
           
       - name: Print Version Number
-        run:  echo Project Version: ${{ steps.unityBuild.outputs.buildVersion }}        
+        run:  echo Project Version ${{ steps.unityBuild.outputs.buildVersion }}        
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
