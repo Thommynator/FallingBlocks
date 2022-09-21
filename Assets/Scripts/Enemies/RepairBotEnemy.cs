@@ -10,6 +10,13 @@ public class RepairBotEnemy : FollowerEnemy
     private bool _isRepairing;
     private ExplodeNearPlayer _explodeNearPlayer;
 
+    private WaitForSeconds _repairIntervalWaitForSeconds;
+
+    private void Awake()
+    {
+        _repairIntervalWaitForSeconds = new WaitForSeconds(_repairIntervalSeconds);
+    }
+
     public override void Start()
     {
         base.Start();
@@ -31,12 +38,12 @@ public class RepairBotEnemy : FollowerEnemy
             {
                 LevelGenerator.Instance.CreateNewCubeAtIfNotExisting(position);
             }
-            yield return new WaitForSeconds(_repairIntervalSeconds);
+            yield return _repairIntervalWaitForSeconds;
         }
     }
 
     /** 
-    * Gets all 2D integer positions arround the current position inside the radius in a circle.
+    * Gets all positions arround the current position inside the radius in a circle.
     */
     public List<Vector3> GetSurroundingPositionsInCircle(Vector3 position, int radius)
     {
@@ -54,7 +61,7 @@ public class RepairBotEnemy : FollowerEnemy
     }
 
     /** 
-    * Gets all 2D integer positions arround the current position inside the radius in a square.
+    * Gets all 2D positions arround the current position inside the radius in a square.
     */
     public List<Vector3> GetSurroundingPositionsInSquare(Vector3 position, int radius)
     {
@@ -68,6 +75,4 @@ public class RepairBotEnemy : FollowerEnemy
         }
         return positions;
     }
-
-
 }

@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.25, y: 0, z: 0.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 437054882964729717}
   m_RootOrder: 1
@@ -122,6 +123,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.8, y: 0.5, z: 0.8}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4245213449759602609}
   - {fileID: 1207590499417050435}
@@ -202,6 +204,7 @@ GameObject:
   - component: {fileID: 437054883150714915}
   - component: {fileID: 437054883150714912}
   - component: {fileID: 437054883150714914}
+  - component: {fileID: 634604879051023494}
   m_Layer: 6
   m_Name: FollowEnemy
   m_TagString: Untagged
@@ -217,8 +220,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 437054883150714913}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 437054882964729717}
   m_Father: {fileID: 0}
@@ -254,6 +258,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxSpeed: 150
   _steeringForce: 150
+--- !u!114 &634604879051023494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437054883150714913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b282a10233eb2bd41bb5f775073ca272, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lowerHeightThreshold: -50
+  _upperHeightThreshold: 200
+  _hasMaxLiveTime: 0
+  _maxLiveTime: 0
 --- !u!1 &7337988924932572601
 GameObject:
   m_ObjectHideFlags: 0
@@ -281,6 +301,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.25, y: 0, z: 0.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 437054882964729717}
   m_RootOrder: 0

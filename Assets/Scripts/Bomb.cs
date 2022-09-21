@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class Bomb : MonoBehaviour
 {
-
     private Rigidbody _body;
-    private Vector3 _target;
     private Explosion _explosion;
 
     // a bomb was triggered several times when colliding with more than one object, which caused problems
@@ -27,9 +25,28 @@ public class Bomb : MonoBehaviour
         }
     }
 
+    public void SetGameObjectActive()
+    {
+        this.gameObject.SetActive(true);
+    }
+
+    public void SetGameObjectInactive()
+    {
+        this.gameObject.SetActive(false);
+    }
+
+    public void ResetVelocity()
+    {
+        _body.velocity = Vector3.zero;
+    }
+
+    public void SetParentTo(Transform parent)
+    {
+        this.transform.SetParent(parent);
+    }
+
     public void FireTo(Vector3 target, float shootingAngleInDeg)
     {
-        _target = target;
         Vector3 shootingVelocity = GetShootingVelocityVector(target - transform.position, shootingAngleInDeg);
         if (float.IsNaN(shootingVelocity.x) || float.IsNaN(shootingVelocity.y) || float.IsNaN(shootingVelocity.z))
         {

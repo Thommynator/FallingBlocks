@@ -1243,10 +1243,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b282a10233eb2bd41bb5f775073ca272, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lowerHeightThreshold: -50
-  upperHeightThreshold: 200
-  hasMaxLiveTime: 1
-  maxLiveTime: 30
+  _lowerHeightThreshold: -50
+  _upperHeightThreshold: 200
+  _hasMaxLiveTime: 1
+  _maxLiveTime: 30
 --- !u!1 &2995870517328355584
 GameObject:
   m_ObjectHideFlags: 0

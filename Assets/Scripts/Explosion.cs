@@ -7,16 +7,16 @@ public class Explosion : MonoBehaviour
 {
     [SerializeField] private float _explosionRadius;
     [SerializeField] private LayerMask _cubeLayer;
-    private MMFeedbacks _feedback;
+    private MMFeedbacks _explosionFeedback;
 
-    void Start()
+    void Awake()
     {
-        _feedback = GetComponent<MMFeedbacks>();
+        _explosionFeedback = GetComponent<MMFeedbacks>();
     }
 
     public void Explode()
     {
-        _feedback.PlayFeedbacks();
+        _explosionFeedback.PlayFeedbacks();
         Collider[] hitObjects = Physics.OverlapSphere(transform.position, _explosionRadius);
         foreach (var hitObject in hitObjects)
         {
@@ -32,6 +32,4 @@ public class Explosion : MonoBehaviour
             }
         }
     }
-
-
 }

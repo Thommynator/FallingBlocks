@@ -96,7 +96,7 @@ public class CollectablesManager : MonoBehaviour
             while (transform.childCount < _maxExistingCollectables)
             {
                 Vector3 spawnPosition = LevelGenerator.Instance.GetRandomCubePosition();
-                Collectable collectable = Instantiate<Collectable>(_collectablePrefabs.PickRandom(), spawnPosition + Vector3.up, Quaternion.identity);
+                Collectable collectable = Instantiate(_collectablePrefabs.PickRandom(), spawnPosition + Vector3.up, Quaternion.identity);
                 collectable.transform.SetParent(this.transform);
             }
             yield return new WaitForSeconds(_spawnIntervalSeconds);

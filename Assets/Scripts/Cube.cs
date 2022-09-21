@@ -6,7 +6,10 @@ using MoreMountains.Feedbacks;
 public class Cube : MonoBehaviour
 {
     [SerializeField] private float _fallDelaySeconds;
+    private WaitForSeconds _fallDelayWaitForSeconds;
     private Rigidbody _body;
+    private BoxCollider _boxCollider;
+    private MeshRenderer _meshRenderer;
 
     [SerializeField] private MMF_Player _spawnFeedback;
     [SerializeField] private MMF_Player _touchedFeedback;
@@ -19,10 +22,13 @@ public class Cube : MonoBehaviour
     void Awake()
     {
         _body = GetComponent<Rigidbody>();
-        GetComponentInChildren<MeshRenderer>().material = _originalMaterial;
+        _boxCollider = GetComponent<BoxCollider>();
+        _meshRenderer = GetComponentInChildren<MeshRenderer>();
+        _meshRenderer.material = _originalMaterial;
         _spawnFeedback.Initialization();
         _touchedFeedback.Initialization();
         _fallingFeedback.Initialization();
+        _fallDelayWaitForSeconds = new WaitForSeconds(_fallDelaySeconds);
     }
 
     void Update()
@@ -35,11 +41,21 @@ public class Cube : MonoBehaviour
         }
     }
 
+    public void SetPosition(Vector3 newPosition)
+    {
+        this.transform.position = newPosition;
+    }
+
+    public void SetParentTo(Transform parent)
+    {
+        this.transform.SetParent(parent);
+    }
+
     public void SpawnActions()
     {
         _body.velocity = Vector3.zero;
-        GetComponent<BoxCollider>().enabled = true;
-        GetComponent<Rigidbody>().isKinematic = true;
+        _body.isKinematic = true;
+        _boxCollider.enabled = true;
         this.gameObject.SetActive(true);
         _spawnFeedback.PlayFeedbacks();
 
@@ -71,14 +87,14 @@ public class Cube : MonoBehaviour
         _touchedFeedback.PlayFeedbacks();
         yield return new WaitForSeconds(Random.Range(0, 0.5f));
         _fallingFeedback.PlayFeedbacks();
-        yield return new WaitForSeconds(_fallDelaySeconds);
-        GetComponent<BoxCollider>().enabled = false;
+        yield return _fallDelayWaitForSeconds;
+        _boxCollider.enabled = false;
         _body.isKinematic = false;
     }
 
     public void ResetToOriginalColor()
     {
-        GetComponentInChildren<MeshRenderer>().material = _originalMaterial;
+        _meshRenderer.material = _originalMaterial;
     }
 
 

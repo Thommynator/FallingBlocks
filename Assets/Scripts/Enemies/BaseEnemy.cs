@@ -9,7 +9,6 @@ public class BaseEnemy : MonoBehaviour
     public virtual void Start()
     {
         _body = GetComponent<Rigidbody>();
-        gameObject.AddComponent<SelfDestroy>();
     }
 
 }

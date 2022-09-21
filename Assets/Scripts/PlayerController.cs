@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 _currentMovementInput;
     private Rigidbody _body;
 
-    void Start()
+    void Awake()
     {
         _body = GetComponent<Rigidbody>();
     }

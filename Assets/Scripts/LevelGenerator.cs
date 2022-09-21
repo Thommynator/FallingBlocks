@@ -19,13 +19,16 @@ public class LevelGenerator : MonoBehaviour
 
     private Dictionary<Vector2Int, Cube> _map;
 
+    private WaitForSeconds _waitForTwoSeconds;
+
     void Awake()
     {
-        Debug.Log("Instantiate Cube Pool");
+       Debug.Log("Instantiate Cube Pool", this);
+        _waitForTwoSeconds = new WaitForSeconds(2);
         Instance = this;
         _map = new Dictionary<Vector2Int, Cube>();
         _cubePool = new ObjectPool<Cube>(
-            () => Instantiate<Cube>(_cubePrefab),
+            () => Instantiate(_cubePrefab),
             cube => 
             {
                 cube.SpawnActions();
@@ -87,17 +90,17 @@ public class LevelGenerator : MonoBehaviour
         Vector2Int position2D = position.To2dInt();
 
         var cube = _cubePool.Get();
-        cube.transform.position = new Vector3(position2D.x, 0, position2D.y);
-        cube.transform.SetParent(this.gameObject.transform);
+        cube.SetPosition(new Vector3(position2D.x, 0, position2D.y));
+        cube.SetParentTo(this.transform);
         SetCubeAt(cube, position2D);
     }
 
     public IEnumerator ResetCube(Cube cube)
     {
         // first mark the Cube position in the grid as free, which allows a respawn,
-        // later release the Cube back to the pool
+        // later release the Cube back to the pool, i.e. the block can fall down while another one is spawned again
         SetCubeAt(null, cube.transform.position.To2dInt());
-        yield return new WaitForSeconds(2);
+        yield return _waitForTwoSeconds;
         _cubePool.Release(cube);
     }
 

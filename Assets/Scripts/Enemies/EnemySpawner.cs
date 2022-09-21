@@ -10,6 +10,12 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float _waitTimeInSeconds;
     [SerializeField] private float _chance;
 
+    private WaitForSeconds _spawnWaitForSeconds;
+
+    private void Awake()
+    {
+        _spawnWaitForSeconds = new WaitForSeconds(_waitTimeInSeconds);
+    }
 
     void Start()
     {
@@ -21,7 +27,7 @@ public class EnemySpawner : MonoBehaviour
         if (Random.Range(0.0f, 1.0f) <= _chance)
         {
             Vector3 spawnPosition = LevelGenerator.Instance.GetRandomCubePosition();
-            GameObject.Instantiate(_enemyPrefab, spawnPosition + 2 * Vector3.up, Quaternion.identity);
+            Instantiate(_enemyPrefab, spawnPosition + 2 * Vector3.up, Quaternion.identity);
         }
     }
 
@@ -29,7 +35,7 @@ public class EnemySpawner : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(_waitTimeInSeconds);
+            yield return _spawnWaitForSeconds;
             SpawnRandomEnemy();
         }
     }

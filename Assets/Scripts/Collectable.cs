@@ -6,11 +6,18 @@ public class Collectable : MonoBehaviour
 
     [SerializeField] private CollectableType _type;
 
+    private MMF_Player _collectionFeedback;
+
+    private void Awake()
+    {
+        _collectionFeedback = GetComponentInChildren<MMF_Player>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            GetComponentInChildren<MMF_Player>().PlayFeedbacks();
+           _collectionFeedback.PlayFeedbacks();
             CollectablesManager.Instance.Collect(_type);
         }
     }

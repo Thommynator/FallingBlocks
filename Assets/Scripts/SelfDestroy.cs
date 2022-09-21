@@ -3,17 +3,24 @@ using System.Collections;
 
 public class SelfDestroy : MonoBehaviour
 {
-    [SerializeField] private float lowerHeightThreshold = -50;
-    [SerializeField] private float upperHeightThreshold = 200;
-    [SerializeField] private bool hasMaxLiveTime = false;
-    [SerializeField] private float maxLiveTime = 20;
+    [SerializeField] private float _lowerHeightThreshold;
+    [SerializeField] private float _upperHeightThreshold;
+    [SerializeField] private bool _hasMaxLiveTime;
+    [SerializeField] private float _maxLiveTime;
 
+    private WaitForSeconds _waitFor200Ms;
+
+
+    private void Awake()
+    {
+        _waitFor200Ms = new WaitForSeconds(0.2f);
+    }
 
     void Start()
     {
-        if (hasMaxLiveTime)
+        if (_hasMaxLiveTime)
         {
-            Destroy(gameObject, maxLiveTime);
+            Destroy(gameObject, _maxLiveTime);
         }
 
         StartCoroutine(CheckHeight());
@@ -23,11 +30,11 @@ public class SelfDestroy : MonoBehaviour
     {
         while (true)
         {
-            if (transform.position.y < lowerHeightThreshold || transform.position.y > upperHeightThreshold)
+            if (transform.position.y < _lowerHeightThreshold || transform.position.y > _upperHeightThreshold)
             {
                 Destroy(gameObject);
             }
-            yield return new WaitForSeconds(0.2f);
+            yield return _waitFor200Ms;
         }
     }
 }

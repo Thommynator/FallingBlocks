@@ -37,10 +37,6 @@ public class FollowerEnemy : BaseEnemy
     private void LookInDrivingDirection()
     {
         Vector3 direction = (transform.position + _body.velocity).InXZPlane(transform.position.y);
-        Debug.DrawLine(transform.position, direction, Color.white);
         transform.LookAt(direction, Vector3.up);
     }
-
-
-
 }

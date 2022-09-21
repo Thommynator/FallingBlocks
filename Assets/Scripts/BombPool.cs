@@ -14,17 +14,17 @@ public class BombPool : MonoBehaviour
         _bombPool = new ObjectPool<Bomb>(
             () =>
             {
-                var bomb = Instantiate<Bomb>(_bombPrefab);
-                bomb.transform.SetParent(this.transform);
+                var bomb = Instantiate(_bombPrefab);
+                bomb.SetParentTo(this.transform);
                 return bomb;
             },
             bomb =>
             {
                 bomb.ResetTrigger();
-                bomb.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                bomb.gameObject.SetActive(true);
+                bomb.ResetVelocity();
+                bomb.SetGameObjectActive();
             },
-            bomb => bomb.gameObject.SetActive(false),
+            bomb => bomb.SetGameObjectInactive(),
             bomb => Destroy(bomb.gameObject),
             true,
             10,
@@ -41,7 +41,4 @@ public class BombPool : MonoBehaviour
     {
         _bombPool.Release(bomb);
     }
-
-
-
 }
