@@ -62,5 +62,5 @@ jobs:
           CHANNEL: html5
           ITCH_GAME: falling-blocks
           ITCH_USER: Exenter
-          PACKAGE: build
+          PACKAGE: build/WebGL
           VERSION: ${{ steps.unityBuild.outputs.buildVersion }}
