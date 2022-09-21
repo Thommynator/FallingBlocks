@@ -93,7 +93,7 @@ public class CollectablesManager : MonoBehaviour
     {
         while (true)
         {
-            if (transform.childCount < _maxExistingCollectables)
+            while (transform.childCount < _maxExistingCollectables)
             {
                 Vector3 spawnPosition = LevelGenerator.Instance.GetRandomCubePosition();
                 Collectable collectable = Instantiate<Collectable>(_collectablePrefabs.PickRandom(), spawnPosition + Vector3.up, Quaternion.identity);
