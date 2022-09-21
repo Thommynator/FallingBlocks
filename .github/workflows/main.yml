@@ -55,11 +55,19 @@ jobs:
           name: build-WebGL
           path: build/WebGL
 
-      - uses: manleydev/butler-publish-itchio-action@master
+  ItchDeployment:
+    name: Deploy to itch.io
+    needs: buildWebGL
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Butler Deploy
+        uses: manleydev/butler-publish-itchio-action@master
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
           CHANNEL: html5
           ITCH_GAME: falling-blocks
           ITCH_USER: Exenter
           PACKAGE: build/WebGL
-          VERSION: ${{ steps.unity-build.outputs.buildVersion }}
+          VERSION: ${{ steps.unityBuild.outputs.buildVersion }}
