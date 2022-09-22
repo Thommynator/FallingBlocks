@@ -1,4 +1,4 @@
-name: Build & Deploy WebGL
+name: Build & Deploy MacOS
 
 on:
   push:
@@ -49,8 +49,8 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           versioning: Semantic
-          targetPlatform: WebGL
-          # TODO Change the buildName to the game name                    
+          targetPlatform: StandaloneOSX   
+          # TODO Change the buildName to the game name
           buildName: FallingBlocks
           buildsPath: build
           
@@ -60,8 +60,8 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: build-WebGL
-          path: build/WebGL
+          name: build-macOS
+          path: build/macOS
       
       - run: ls -la
           
@@ -75,8 +75,8 @@ jobs:
 
       - uses: actions/download-artifact@master
         with:
-          name: build-WebGL
-          path: build/WebGL 
+          name: build-macOS
+          path: build/macOS 
 
       - run: ls -la
     
@@ -84,9 +84,9 @@ jobs:
         uses: manleydev/butler-publish-itchio-action@master
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
-          CHANNEL: html5
+          CHANNEL: mac
           # TODO Change game name here
           ITCH_GAME: falling-blocks
           ITCH_USER: Exenter
-          PACKAGE: build/WebGL
+          PACKAGE: build/macOS
           VERSION: ${{ steps.unityBuild.outputs.buildVersion }}

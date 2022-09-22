@@ -1,6 +1,9 @@
 name: Build & Deploy Windows
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -46,7 +49,9 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           versioning: Semantic
-          targetPlatform: StandaloneWindows   
+          targetPlatform: StandaloneWindows 
+          # TODO Change the buildName to the game name          
+          buildName: FallingBlocks
           buildsPath: build
           
       - name: Print Version Number
@@ -55,7 +60,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: build-StandaloneWindows
+          name: build-StandaloneWindows 
           path: build/StandaloneWindows
       
       - run: ls -la
@@ -80,6 +85,7 @@ jobs:
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
           CHANNEL: windows
+          # TODO Change game name here
           ITCH_GAME: falling-blocks
           ITCH_USER: Exenter
           PACKAGE: build/StandaloneWindows
