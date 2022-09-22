@@ -27,6 +27,7 @@ jobs:
           git lfs pull
           git add .
           git reset --hard
+      
       - name: Restore Library cache
         uses: actions/cache@v2
         with:
@@ -35,25 +36,37 @@ jobs:
           restore-keys: |
             Library-build-
             Library-
-      - name: Unity Build
+      
+      # - name: Unity Build WebGL
+        # uses: game-ci/unity-builder@v2
+        # id: unityBuildWebGL
+        # env:
+          # UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          # UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          # UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        # with:
+          # versioning: Semantic
+          # targetPlatform: WebGL
+        
+      - name: Unity Build Windows
         uses: game-ci/unity-builder@v2
-        id: unityBuild
+        id: unityBuildWindows
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           versioning: Semantic
-          targetPlatform: WebGL
+          targetPlatform: StandaloneWindows        
           
       - name: Print Version Number
-        run:  echo Project Version ${{ steps.unityBuild.outputs.buildVersion }}        
+        run:  echo Project Version ${{ steps.unityBuildWindows.outputs.buildVersion }}        
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: build-WebGL
-          path: build/WebGL/WebGL
+          name: build-StandaloneWindows
+          path: build/StandaloneWindows/StandaloneWindows
 
       - name: Butler Deploy
         uses: manleydev/butler-publish-itchio-action@master
@@ -62,5 +75,5 @@ jobs:
           CHANNEL: html5
           ITCH_GAME: falling-blocks
           ITCH_USER: Exenter
-          PACKAGE: build/WebGL/WebGL
-          VERSION: ${{ steps.unityBuild.outputs.buildVersion }}
+          PACKAGE: build/StandaloneWindows/StandaloneWindows
+          VERSION: ${{ steps.unityBuildWindows.outputs.buildVersion }}
