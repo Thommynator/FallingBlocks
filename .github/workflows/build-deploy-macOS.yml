@@ -61,7 +61,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: build-macOS
-          path: build/macOS
+          path: build/StandaloneOSX
       
       - run: ls -la
           
@@ -76,7 +76,7 @@ jobs:
       - uses: actions/download-artifact@master
         with:
           name: build-macOS
-          path: build/macOS 
+          path: build/StandaloneOSX 
 
       - run: ls -la
     
@@ -88,5 +88,5 @@ jobs:
           # TODO Change game name here
           ITCH_GAME: falling-blocks
           ITCH_USER: Exenter
-          PACKAGE: build/macOS
+          PACKAGE: build/StandaloneOSX
           VERSION: ${{ steps.unityBuild.outputs.buildVersion }}
