@@ -50,6 +50,7 @@ jobs:
         with:
           versioning: Semantic
           targetPlatform: StandaloneWindows 
+          unityVersion: 2022.1.16f1
           # TODO Change the buildName to the game name          
           buildName: FallingBlocks
           buildsPath: build
