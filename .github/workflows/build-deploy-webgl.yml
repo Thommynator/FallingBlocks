@@ -49,7 +49,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           versioning: Semantic
-          targetPlatform: 
+          targetPlatform: WebGL
           unityVersion: 2022.1.16f1
           # TODO Change the buildName to the game name                    
           buildName: FallingBlocks
