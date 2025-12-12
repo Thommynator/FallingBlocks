@@ -11,6 +11,6 @@ public class FollowTarget : MonoBehaviour
     void Update()
     {
         var targetPosition = _target.transform.position;
-        this.transform.position = new Vector3(targetPosition.x, height, targetPosition.z);
+        transform.position = new Vector3(targetPosition.x, height, targetPosition.z);
     }
 }

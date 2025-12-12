@@ -1,78 +1,59 @@
 using System.Collections;
 using System.Collections.Generic;
+using Enemies.Behavior;
 using UnityEngine;
 
-public class RepairBotEnemy : FollowerEnemy
-{
+namespace Enemies {
+    public class RepairBotEnemy : FollowerEnemy {
+        [SerializeField] private int _repairRange;
+        [SerializeField] private float _repairIntervalSeconds;
+        [SerializeField] private float _followDistanceThreshold;
+        private ExplodeNearPlayer _explodeNearPlayer;
+        private IMovementBehavior _followMovement;
+        private IMovementBehavior _randomWalkMovement;
 
-    [SerializeField] private int _repairRange;
-    [SerializeField] private float _repairIntervalSeconds;
-    private bool _isRepairing;
-    private ExplodeNearPlayer _explodeNearPlayer;
+        private WaitForSeconds _repairIntervalWaitForSeconds;
 
-    private WaitForSeconds _repairIntervalWaitForSeconds;
-
-    private void Awake()
-    {
-        _repairIntervalWaitForSeconds = new WaitForSeconds(_repairIntervalSeconds);
-    }
-
-    public override void Start()
-    {
-        base.Start();
-        TryGetComponent<ExplodeNearPlayer>(out _explodeNearPlayer);
-        StartCoroutine(RepairSurroundingCubes());
-    }
-
-    public void SetIsRepairing(bool newValue)
-    {
-        _isRepairing = newValue;
-    }
-
-    private IEnumerator RepairSurroundingCubes()
-    {
-        while (!_explodeNearPlayer.IsExploded())
-        {
-            List<Vector3> positions = GetSurroundingPositionsInSquare(transform.position, _repairRange);
-            foreach (var position in positions)
-            {
-                LevelGenerator.Instance.CreateNewCubeAtIfNotExisting(position);
-            }
-            yield return _repairIntervalWaitForSeconds;
+        private void Awake() {
+            _repairIntervalWaitForSeconds = new WaitForSeconds(_repairIntervalSeconds);
         }
-    }
 
-    /** 
-    * Gets all positions arround the current position inside the radius in a circle.
-    */
-    public List<Vector3> GetSurroundingPositionsInCircle(Vector3 position, int radius)
-    {
-        List<Vector3> positions = new List<Vector3>();
-        for (int x = -radius; x <= radius; x++)
-        {
-            float rootValue = radius * radius - x * x;
-            int zMax = Mathf.Approximately(rootValue, 0.0f) ? 0 : Mathf.FloorToInt(Mathf.Sqrt(rootValue));
-            for (int z = -zMax; z <= zMax; z++)
-            {
-                positions.Add(new Vector3(position.x + x, 0, position.z + z));
+        public override void Start() {
+            base.Start();
+            _followMovement = _movementBehavior;
+            _randomWalkMovement = new RandomWalkMovement(_maxSpeed, _steeringForce, _body);
+            TryGetComponent(out _explodeNearPlayer);
+            StartCoroutine(RepairSurroundingCubes());
+        }
+
+        public new void Update() {
+            _movementBehavior = transform.position.IsNear(_target.transform.position, _followDistanceThreshold) ? _followMovement : _randomWalkMovement;
+            base.Update();
+        }
+
+        private IEnumerator RepairSurroundingCubes() {
+            while (!_explodeNearPlayer.IsExploded()) {
+                List<Vector3> positions = GetSurroundingPositionsInSquare(transform.position, _repairRange);
+                foreach (var position in positions) {
+                    LevelGenerator.Instance.CreateNewCubeAtIfNotExisting(position);
+                }
+
+                yield return _repairIntervalWaitForSeconds;
             }
         }
-        return positions;
-    }
 
-    /** 
-    * Gets all 2D positions arround the current position inside the radius in a square.
-    */
-    public List<Vector3> GetSurroundingPositionsInSquare(Vector3 position, int radius)
-    {
-        List<Vector3> positions = new List<Vector3>();
-        for (int x = -radius; x <= radius; x++)
-        {
-            for (int z = -radius; z <= radius; z++)
-            {
-                positions.Add(new Vector3(position.x + x, 0, position.z + z));
+        /**
+        * Gets all 2D positions around the current position inside the radius in a square.
+        */
+        private List<Vector3> GetSurroundingPositionsInSquare(Vector3 position, int radius) {
+            List<Vector3> positions = new List<Vector3>();
+            for (var x = -radius; x <= radius; x++) {
+                for (var z = -radius; z <= radius; z++) {
+                    positions.Add(new Vector3(position.x + x, 0, position.z + z));
+                }
             }
+
+            return positions;
         }
-        return positions;
     }
 }

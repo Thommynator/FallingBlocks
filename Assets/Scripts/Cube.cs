@@ -53,18 +53,17 @@ public class Cube : MonoBehaviour
 
     public void SpawnActions()
     {
-        _body.velocity = Vector3.zero;
         _body.isKinematic = true;
         _boxCollider.enabled = true;
-        this.gameObject.SetActive(true);
+        gameObject.SetActive(true);
         _spawnFeedback.PlayFeedbacks();
 
     }
 
     public void DeactivationActions()
     {
-        this.gameObject.SetActive(false);
-        this._isBelowRespawnHeight = false;
+        gameObject.SetActive(false);
+        _isBelowRespawnHeight = false;
         ResetToOriginalColor();
     }
 

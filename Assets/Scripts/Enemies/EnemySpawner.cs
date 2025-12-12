@@ -1,44 +1,41 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
-public class EnemySpawner : MonoBehaviour
-{
-
-    [SerializeField] private BaseEnemy _enemyPrefab;
-    [SerializeField] private float _waitTimeInSeconds;
-    [SerializeField] private float _chance;
-
-    private WaitForSeconds _spawnWaitForSeconds;
-
-    private void Awake()
+namespace Enemies {
+    public class EnemySpawner : MonoBehaviour
     {
-        _spawnWaitForSeconds = new WaitForSeconds(_waitTimeInSeconds);
-    }
 
-    void Start()
-    {
-        StartCoroutine(SpawnLoop());
-    }
+        [SerializeField] private BaseEnemy _enemyPrefab;
+        [SerializeField] private float _waitTimeInSeconds;
+        [SerializeField] private float _chance;
 
-    private void SpawnRandomEnemy()
-    {
-        if (Random.Range(0.0f, 1.0f) <= _chance)
+        private WaitForSeconds _spawnWaitForSeconds;
+
+        private void Awake()
         {
+            _spawnWaitForSeconds = new WaitForSeconds(_waitTimeInSeconds);
+        }
+
+        void Start()
+        {
+            StartCoroutine(SpawnLoop());
+        }
+
+        private void SpawnRandomEnemy() {
+            if (!(Random.Range(0.0f, 1.0f) <= _chance)) return;
             Vector3 spawnPosition = LevelGenerator.Instance.GetRandomCubePosition();
             Instantiate(_enemyPrefab, spawnPosition + 2 * Vector3.up, Quaternion.identity);
         }
-    }
 
-    IEnumerator SpawnLoop()
-    {
-        while (true)
+        IEnumerator SpawnLoop()
         {
-            yield return _spawnWaitForSeconds;
-            SpawnRandomEnemy();
+            while (true)
+            {
+                yield return _spawnWaitForSeconds;
+                SpawnRandomEnemy();
+            }
         }
+
+
     }
-
-
 }

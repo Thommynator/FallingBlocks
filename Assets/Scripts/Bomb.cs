@@ -27,22 +27,22 @@ public class Bomb : MonoBehaviour
 
     public void SetGameObjectActive()
     {
-        this.gameObject.SetActive(true);
+        gameObject.SetActive(true);
     }
 
     public void SetGameObjectInactive()
     {
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public void ResetVelocity()
     {
-        _body.velocity = Vector3.zero;
+        _body.linearVelocity = Vector3.zero;
     }
 
     public void SetParentTo(Transform parent)
     {
-        this.transform.SetParent(parent);
+        transform.SetParent(parent);
     }
 
     public void FireTo(Vector3 target, float shootingAngleInDeg)
@@ -83,7 +83,7 @@ public class Bomb : MonoBehaviour
 
     private void AdjustOrientation()
     {
-        transform.LookAt(transform.position + _body.velocity, Vector3.up);
+        transform.LookAt(transform.position + _body.linearVelocity, Vector3.up);
     }
 
     public void ResetTrigger()

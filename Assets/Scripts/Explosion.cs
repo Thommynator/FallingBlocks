@@ -22,14 +22,11 @@ public class Explosion : MonoBehaviour
         {
             if (hitObject.CompareTag("Player"))
             {
-                hitObject.transform.parent.GetComponent<Rigidbody>().AddExplosionForce(50, this.transform.position, 3 * _explosionRadius, 1, ForceMode.Impulse);
+                hitObject.transform.parent.GetComponent<Rigidbody>().AddExplosionForce(50, transform.position, 3 * _explosionRadius, 1, ForceMode.Impulse);
             }
 
-            hitObject.TryGetComponent<Cube>(out Cube cube);
-            if (cube != null)
-            {
-                cube.TriggerFall();
-            }
+            hitObject.TryGetComponent(out Cube cube);
+            cube?.TriggerFall();
         }
     }
 }

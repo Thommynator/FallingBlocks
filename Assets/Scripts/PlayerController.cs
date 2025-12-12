@@ -38,9 +38,9 @@ public class PlayerController : MonoBehaviour
     {
         _body.AddForce(_movementForceFactor * new Vector3(_currentMovementInput.x, 0, _currentMovementInput.y));
 
-        if (_body.velocity.magnitude > _maxSpeed)
+        if (_body.linearVelocity.magnitude > _maxSpeed)
         {
-            _body.velocity = _maxSpeed * _body.velocity.normalized;
+            _body.linearVelocity = _maxSpeed * _body.linearVelocity.normalized;
         }
     }
 

@@ -15,7 +15,7 @@ public class BombPool : MonoBehaviour
             () =>
             {
                 var bomb = Instantiate(_bombPrefab);
-                bomb.SetParentTo(this.transform);
+                bomb.SetParentTo(transform);
                 return bomb;
             },
             bomb =>

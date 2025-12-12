@@ -1,89 +1,76 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.Pool;
 
-public class LevelGenerator : MonoBehaviour
-{
-
+public class LevelGenerator : MonoBehaviour {
     public static LevelGenerator Instance;
 
     [SerializeField] private Cube _cubePrefab;
     [SerializeField] private int _rows;
     [SerializeField] private int _cols;
-
-    private Vector3 minCoordinates;
-    private Vector3 maxCoordinates;
     private ObjectPool<Cube> _cubePool;
 
     private Dictionary<Vector2Int, Cube> _map;
+    private Vector3 _maxCoordinates;
+
+    private Vector3 _minCoordinates;
 
     private WaitForSeconds _waitForTwoSeconds;
 
-    void Awake()
-    {
-       Debug.Log("Instantiate Cube Pool", this);
+    void Awake() {
+        Debug.Log("Instantiate Cube Pool", this);
         _waitForTwoSeconds = new WaitForSeconds(2);
         Instance = this;
         _map = new Dictionary<Vector2Int, Cube>();
         _cubePool = new ObjectPool<Cube>(
             () => Instantiate(_cubePrefab),
-            cube => 
-            {
-                cube.SpawnActions();
-            },
-            cube =>
-            {
-                cube.DeactivationActions();
-            },
+            cube => { cube.SpawnActions(); },
+            cube => { cube.DeactivationActions(); },
             cube => Destroy(cube.gameObject),
             true,
             _rows * _cols,
             Mathf.RoundToInt((_rows * _cols) * 1.3f)
-            );
+        );
     }
 
-    void Start()
-    {
-        minCoordinates = new Vector3(-_cols / 2, 0, 0);
-        maxCoordinates = new Vector3(_cols / 2, 0, _rows);
+    void Start() {
+        var halfCols = _cols / 2;
+        _minCoordinates = new Vector3(-halfCols, 0, 0);
+        _maxCoordinates = new Vector3(halfCols, 0, _rows);
 
-        for (int col = 0; col < _cols; col++)
-        {
-            for (int row = 0; row < _rows; row++)
-            {
-                CreateNewCubeAtIfNotExisting(new Vector3(col - _cols / 2, 0, row));
+        for (var col = 0; col < _cols; col++) {
+            for (var row = 0; row < _rows; row++) {
+                CreateNewCubeAtIfNotExisting(new Vector3(col - halfCols, 0, row));
             }
         }
     }
 
-    public Cube GetCubeAt(Vector3 position)
-    {
-        return _map.TryGetValue(position.To2dInt(), out Cube cube) ? cube : null;
+    [ExecuteInEditMode]
+    private void OnDrawGizmos() {
+        Gizmos.color = Color.red;
+        for (var col = 0; col < _cols; col++) {
+            for (var row = 0; row < _rows; row++) {
+                Gizmos.DrawWireCube(new Vector3(col - _cols / 2, -0.5f, row), Vector3.one);
+            }
+        }
     }
 
-    public Cube GetRandomCube()
-    {
-        Cube randomCube;
-        do
-        {
-            randomCube = _map.ElementAt(Random.Range(0, _map.Count)).Value;
-        } while (randomCube == null);
-
-        return randomCube;
+    private bool ExistsCubeAt(Vector3 position) {
+        return _map.ContainsKey(position.To2dInt());
     }
 
-    public Vector3 GetRandomCubePosition()
-    {
+    private Cube GetRandomCube() {
+        return _map.ElementAt(Random.Range(0, _map.Count)).Value;
+    }
+
+    public Vector3 GetRandomCubePosition() {
         return GetRandomCube().transform.position;
     }
 
-    public void CreateNewCubeAtIfNotExisting(Vector3 position)
-    {
-
-        if (GetCubeAt(position) != null || !IsInBounds(position))
-        {
+    public void CreateNewCubeAtIfNotExisting(Vector3 position) {
+        if (ExistsCubeAt(position) || !IsInBounds(position)) {
             return;
         }
 
@@ -91,42 +78,26 @@ public class LevelGenerator : MonoBehaviour
 
         var cube = _cubePool.Get();
         cube.SetPosition(new Vector3(position2D.x, 0, position2D.y));
-        cube.SetParentTo(this.transform);
+        cube.SetParentTo(transform);
         SetCubeAt(cube, position2D);
     }
 
-    public IEnumerator ResetCube(Cube cube)
-    {
+    public IEnumerator ResetCube(Cube cube) {
         // first mark the Cube position in the grid as free, which allows a respawn,
         // later release the Cube back to the pool, i.e. the block can fall down while another one is spawned again
-        SetCubeAt(null, cube.transform.position.To2dInt());
+        _map.Remove(cube.transform.position.To2dInt());
         yield return _waitForTwoSeconds;
         _cubePool.Release(cube);
     }
 
-    private void SetCubeAt(Cube cube, Vector2Int position)
-    {
+    private void SetCubeAt(Cube cube, Vector2Int position) {
         _map[position] = cube;
     }
 
-    public bool IsInBounds(Vector3 position)
-    {
-        return position.x >= minCoordinates.x
-            && position.z >= minCoordinates.z
-            && position.x <= maxCoordinates.x
-            && position.z <= maxCoordinates.z;
-    }
-
-    [ExecuteInEditMode]
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        for (int col = 0; col < _cols; col++)
-        {
-            for (int row = 0; row < _rows; row++)
-            {
-                Gizmos.DrawWireCube(new Vector3(col - _cols / 2, -0.5f, row), Vector3.one);
-            }
-        }
+    private bool IsInBounds(Vector3 position) {
+        return position.x >= _minCoordinates.x
+               && position.z >= _minCoordinates.z
+               && position.x <= _maxCoordinates.x
+               && position.z <= _maxCoordinates.z;
     }
 }

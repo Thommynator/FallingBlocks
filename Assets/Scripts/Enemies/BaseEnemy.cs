@@ -1,14 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseEnemy : MonoBehaviour
-{
-    protected Rigidbody _body;
-
-    public virtual void Start()
+namespace Enemies {
+    public class BaseEnemy : MonoBehaviour
     {
-        _body = GetComponent<Rigidbody>();
-    }
+        protected Rigidbody _body;
 
+        public virtual void Start()
+        {
+            _body = GetComponent<Rigidbody>();
+        }
+
+    }
 }

@@ -28,13 +28,13 @@ public class ExplodeNearPlayer : MonoBehaviour
         {
             _isExploded = true;
             _explosion.Explode();
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 
     private bool IsCloseToPlayer()
     {
-        return Vector3.SqrMagnitude(this.transform.position - _player.transform.position) < _distanceSquared;
+        return Vector3.SqrMagnitude(transform.position - _player.transform.position) < _distanceSquared;
     }
 
     public bool IsExploded()

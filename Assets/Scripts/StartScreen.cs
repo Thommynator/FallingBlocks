@@ -11,7 +11,7 @@ public class StartScreen : MonoBehaviour
 
     public void StartGame()
     {
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
         Time.timeScale = 1;
     }
 

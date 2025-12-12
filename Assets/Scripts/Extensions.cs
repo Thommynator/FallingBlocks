@@ -17,4 +17,8 @@ static class Extensions
     {
         return list[Random.Range(0, list.Count)];
     }
+    
+    public static bool IsNear(this Vector3 position, Vector3 target, float distanceThreshold = 1.0f) {
+        return Vector3.Distance(position, target) < distanceThreshold;
+    }
 }
