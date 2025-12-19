@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 8956379863005884130}
   - component: {fileID: 392743147803819644}
   - component: {fileID: -1858915948984405802}
+  - component: {fileID: 325259300323489068}
   m_Layer: 6
   m_Name: RepairBotEnemy
   m_TagString: Enemy
@@ -177,6 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c4e79b1edd892d438c0e728bf17fa95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementProperties: {fileID: 11400000, guid: 284d3bd9ba3174244954ffbeac4bbe71, type: 2}
   _maxSpeed: 3
   _steeringForce: 5
   _repairRange: 3
@@ -198,6 +200,18 @@ MonoBehaviour:
   _upperHeightThreshold: 200
   _hasMaxLiveTime: 0
   _maxLiveTime: 0
+--- !u!114 &325259300323489068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8956379863005884129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd54523d74e8ae44f8e652cd73183d90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8956379863018549809
 GameObject:
   m_ObjectHideFlags: 0

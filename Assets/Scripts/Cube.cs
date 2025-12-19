@@ -1,26 +1,23 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using MoreMountains.Feedbacks;
+using UnityEngine;
 
-public class Cube : MonoBehaviour
-{
+public class Cube : MonoBehaviour {
     [SerializeField] private float _fallDelaySeconds;
-    private WaitForSeconds _fallDelayWaitForSeconds;
-    private Rigidbody _body;
-    private BoxCollider _boxCollider;
-    private MeshRenderer _meshRenderer;
 
     [SerializeField] private MMF_Player _spawnFeedback;
     [SerializeField] private MMF_Player _touchedFeedback;
     [SerializeField] private MMF_Player _fallingFeedback;
     [SerializeField] private Material _originalMaterial;
+    private Rigidbody _body;
+    private BoxCollider _boxCollider;
+    private WaitForSeconds _fallDelayWaitForSeconds;
+    private bool _isBelowRespawnHeight = false;
+    private MeshRenderer _meshRenderer;
 
     private int _respawnHeight = -5;
-    private bool _isBelowRespawnHeight = false;
 
-    void Awake()
-    {
+    void Awake() {
         _body = GetComponent<Rigidbody>();
         _boxCollider = GetComponent<BoxCollider>();
         _meshRenderer = GetComponentInChildren<MeshRenderer>();
@@ -31,58 +28,47 @@ public class Cube : MonoBehaviour
         _fallDelayWaitForSeconds = new WaitForSeconds(_fallDelaySeconds);
     }
 
-    void Update()
-    {
-        if (!_isBelowRespawnHeight && transform.position.y < _respawnHeight)
-        {
+    void Update() {
+        if (!_isBelowRespawnHeight && transform.position.y < _respawnHeight) {
             // Cube can be resetted when below the respawn height, but only once
-            _isBelowRespawnHeight=true;
+            _isBelowRespawnHeight = true;
             StartCoroutine(LevelGenerator.Instance.ResetCube(this));
         }
     }
 
-    public void SetPosition(Vector3 newPosition)
-    {
-        this.transform.position = newPosition;
+    void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject.CompareTag("Player")) {
+            TriggerFall();
+        }
     }
 
-    public void SetParentTo(Transform parent)
-    {
-        this.transform.SetParent(parent);
+    public void SetPosition(Vector3 newPosition) {
+        transform.position = newPosition;
     }
 
-    public void SpawnActions()
-    {
+    public void SetParentTo(Transform parent) {
+        transform.SetParent(parent);
+    }
+
+    public void SpawnActions() {
         _body.isKinematic = true;
         _boxCollider.enabled = true;
         gameObject.SetActive(true);
         _spawnFeedback.PlayFeedbacks();
-
     }
 
-    public void DeactivationActions()
-    {
+    public void DeactivationActions() {
         gameObject.SetActive(false);
         _isBelowRespawnHeight = false;
         ResetToOriginalColor();
     }
 
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            TriggerFall();
-        }
-    }
 
-
-    public void TriggerFall()
-    {
+    public void TriggerFall() {
         StartCoroutine(Fall());
     }
 
-    private IEnumerator Fall()
-    {
+    private IEnumerator Fall() {
         _touchedFeedback.PlayFeedbacks();
         yield return new WaitForSeconds(Random.Range(0, 0.5f));
         _fallingFeedback.PlayFeedbacks();
@@ -91,11 +77,7 @@ public class Cube : MonoBehaviour
         _body.isKinematic = false;
     }
 
-    public void ResetToOriginalColor()
-    {
+    private void ResetToOriginalColor() {
         _meshRenderer.material = _originalMaterial;
     }
-
-
-
 }

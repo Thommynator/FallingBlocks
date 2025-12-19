@@ -20,15 +20,14 @@ namespace Enemies {
 
         public override void Start() {
             base.Start();
-            _followMovement = _movementBehavior;
-            _randomWalkMovement = new RandomWalkMovement(_maxSpeed, _steeringForce, _body);
+            _followMovement = movementBehavior;
+            _randomWalkMovement = new RandomWalkMovement(movementProperties, _body);
             TryGetComponent(out _explodeNearPlayer);
             StartCoroutine(RepairSurroundingCubes());
         }
 
-        public new void Update() {
-            _movementBehavior = transform.position.IsNear(_target.transform.position, _followDistanceThreshold) ? _followMovement : _randomWalkMovement;
-            base.Update();
+        public void Update() {
+            movementBehavior = transform.position.IsNear(target.transform.position, _followDistanceThreshold) ? _followMovement : _randomWalkMovement;
         }
 
         private IEnumerator RepairSurroundingCubes() {

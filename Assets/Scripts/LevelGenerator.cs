@@ -46,15 +46,10 @@ public class LevelGenerator : MonoBehaviour {
             }
         }
     }
-
-    [ExecuteInEditMode]
+    
     private void OnDrawGizmos() {
         Gizmos.color = Color.red;
-        for (var col = 0; col < _cols; col++) {
-            for (var row = 0; row < _rows; row++) {
-                Gizmos.DrawWireCube(new Vector3(col - _cols / 2, -0.5f, row), Vector3.one);
-            }
-        }
+        Gizmos.DrawWireCube(new Vector3(0, 0, _rows / 2), new Vector3(_rows, 3, _cols));
     }
 
     private bool ExistsCubeAt(Vector3 position) {
