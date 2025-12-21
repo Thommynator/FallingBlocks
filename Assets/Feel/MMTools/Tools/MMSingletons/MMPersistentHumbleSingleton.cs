@@ -28,7 +28,7 @@ namespace MoreMountains.Tools
 			{
 				if (_instance == null)
 				{
-					_instance = FindObjectOfType<T> ();
+					_instance = FindAnyObjectByType<T>();
 					if (_instance == null)
 					{
 						GameObject obj = new GameObject ();
@@ -46,16 +46,24 @@ namespace MoreMountains.Tools
 		/// </summary>
 		protected virtual void Awake ()
 		{
+			InitializeSingleton();			
+		}
+
+		/// <summary>
+		/// Initializes the singleton.
+		/// </summary>
+		protected virtual void InitializeSingleton()
+		{
 			if (!Application.isPlaying)
 			{
 				return;
 			}
-
+			
 			InitializationTime = Time.time;
 
 			DontDestroyOnLoad (this.gameObject);
 			// we check for existing objects of the same type
-			T[] check = FindObjectsOfType<T>();
+			T[] check = FindObjectsByType<T>(FindObjectsSortMode.None);
 			foreach (T searched in check)
 			{
 				if (searched!=this)

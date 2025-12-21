@@ -15,18 +15,95 @@ namespace MoreMountains.Tools
 		protected Scene _destinationScene;
 		protected UnityAction<Scene, Scene> _onActiveSceneChangedCallback;
 		protected string _sceneToLoadName;
+		protected string _antiSpillSceneName;
 		protected List<GameObject> _spillSceneRoots = new List<GameObject>(50);
+		protected static List<string> _scenesInBuild;
 		
 		/// <summary>
 		/// Creates the temporary scene
 		/// </summary>
 		/// <param name="sceneToLoadName"></param>
-		public virtual void PrepareAntiFill(string sceneToLoadName)
-		{
-			_antiSpillScene = SceneManager.CreateScene($"AntiSpill_{sceneToLoadName}");
+		public virtual void PrepareAntiFill(string sceneToLoadName, string antiSpillSceneName = "")
+		{			
+			var sourceSkybox = RenderSettings.skybox;
+			var sourceAmbientMode = RenderSettings.ambientMode;
+			var sourceAmbientLight = RenderSettings.ambientLight;
+			var sourceAmbientSkyColor = RenderSettings.ambientSkyColor;
+			var sourceAmbientEquatorColor = RenderSettings.ambientEquatorColor;
+			var sourceAmbientGroundColor = RenderSettings.ambientGroundColor;
+			var sourceFog = RenderSettings.fog;
+			var sourceFogColor = RenderSettings.fogColor;
+			var sourceFogMode = RenderSettings.fogMode;
+			var sourceFogDensity = RenderSettings.fogDensity;
+			var sourceFogStartDistance = RenderSettings.fogStartDistance;
+			var sourceFogEndDistance = RenderSettings.fogEndDistance;
+			var sourceLightmapsMode = LightmapSettings.lightmapsMode;
+			var sourceLightProbes = LightmapSettings.lightProbes;
+			var sourceLightmaps = LightmapSettings.lightmaps;
+			
 			_destinationScene = default; 
 			_sceneToLoadName = sceneToLoadName;
+			
+			if (antiSpillSceneName == "")
+			{
+				_antiSpillScene = SceneManager.CreateScene($"AntiSpill_{sceneToLoadName}");
 
+				PrepareAntiFillSetSceneActive();
+			}
+			else
+			{
+				_scenesInBuild = MMScene.GetScenesInBuild();
+				if (!_scenesInBuild.Contains(antiSpillSceneName))
+				{
+					Debug.LogError("MMSceneLoadingAntiSpill : impossible to load the '"+antiSpillSceneName+"' scene, " +
+					               "there is no such scene in the project's build settings.");
+					return;
+				}
+				
+				SceneManager.LoadScene(antiSpillSceneName, LoadSceneMode.Additive);
+				_antiSpillScene = SceneManager.GetSceneByName(antiSpillSceneName);
+				_antiSpillSceneName = _antiSpillScene.name;
+				SceneManager.sceneLoaded += PrepareAntiFillOnSceneLoaded;
+			}
+			
+			RenderSettings.skybox = sourceSkybox;
+			RenderSettings.ambientMode = sourceAmbientMode;
+			RenderSettings.ambientLight = sourceAmbientLight;
+			RenderSettings.ambientSkyColor = sourceAmbientSkyColor;
+			RenderSettings.ambientEquatorColor = sourceAmbientEquatorColor;
+			RenderSettings.ambientGroundColor = sourceAmbientGroundColor;
+			RenderSettings.fog = sourceFog;
+			RenderSettings.fogColor = sourceFogColor;
+			RenderSettings.fogMode = sourceFogMode;
+			RenderSettings.fogDensity = sourceFogDensity;
+			RenderSettings.fogStartDistance = sourceFogStartDistance;
+			RenderSettings.fogEndDistance = sourceFogEndDistance;
+			LightmapSettings.lightmapsMode = sourceLightmapsMode;
+			LightmapSettings.lightProbes = sourceLightProbes;
+			LightmapSettings.lightmaps = sourceLightmaps;
+		}
+
+		/// <summary>
+		/// When not creating an anti fill scene, acts once the scene has been actually created and is ready to be set active
+		/// This is bypassed when creating the scene
+		/// </summary>
+		/// <param name="newScene"></param>
+		/// <param name="mode"></param>
+		protected virtual void PrepareAntiFillOnSceneLoaded(Scene newScene, LoadSceneMode mode)
+		{
+			if (newScene.name != _antiSpillSceneName)
+			{
+				return;
+			}
+			SceneManager.sceneLoaded -= PrepareAntiFillOnSceneLoaded;
+			PrepareAntiFillSetSceneActive();
+		}
+
+		/// <summary>
+		/// Sets the anti spill scene active
+		/// </summary>
+		protected virtual void PrepareAntiFillSetSceneActive()
+		{
 			if (_onActiveSceneChangedCallback != null) { SceneManager.activeSceneChanged -= _onActiveSceneChangedCallback; }
 			_onActiveSceneChangedCallback = OnActiveSceneChanged;
 			SceneManager.activeSceneChanged += _onActiveSceneChangedCallback;

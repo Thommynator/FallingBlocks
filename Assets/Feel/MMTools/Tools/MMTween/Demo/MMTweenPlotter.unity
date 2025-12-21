@@ -210,7 +210,6 @@ GameObject:
   m_Component:
   - component: {fileID: 105218281}
   - component: {fileID: 105218280}
-  - component: {fileID: 105218279}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -218,25 +217,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &105218279
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 105218278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
 --- !u!114 &105218280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1140,6 +1120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UpdateInterval: 0.3
+  Mode: 0
 --- !u!114 &1816937003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1194,6 +1175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetFPS: 300
+  RenderFrameInterval: 0
   VSyncCount: 0
 --- !u!1 &2026046399
 GameObject:

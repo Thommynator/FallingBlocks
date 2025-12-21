@@ -18,7 +18,7 @@ namespace MoreMountains.Tools
 			foreach (MMAchievement achievement in MMAchievementManager.AchievementsList)
 			{
 				string status = achievement.UnlockedStatus ? "unlocked" : "locked";
-				Debug.Log("["+achievement.AchievementID + "] "+achievement.Title+", status : "+status+", progress : "+achievement.ProgressCurrent+"/"+achievement.ProgressTarget);
+				MMDebug.DebugLogInfo("["+achievement.AchievementID + "] "+achievement.Title+", status : "+status+", progress : "+achievement.ProgressCurrent+"/"+achievement.ProgressTarget);
 			}	
 		}
 		

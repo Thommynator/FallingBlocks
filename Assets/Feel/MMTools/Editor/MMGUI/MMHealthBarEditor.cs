@@ -1,10 +1,9 @@
-﻿using UnityEngine;
-using MoreMountains.Tools;
-using UnityEditor;
-using UnityEngine.UI;
+﻿using UnityEditor;
 
+#if MM_UI
 namespace MoreMountains.Tools
 {	
+	[CanEditMultipleObjects]
 	[CustomEditor(typeof(MMHealthBar),true)]
 	/// <summary>
 	/// Custom editor for health bars (mostly a switch for prefab based / drawn bars
@@ -23,14 +22,17 @@ namespace MoreMountains.Tools
 		{
 			serializedObject.Update();
 
-			if (HealthBarTarget.HealthBarType == MMHealthBar.HealthBarTypes.Prefab)
+			switch (HealthBarTarget.HealthBarType)
 			{
-				Editor.DrawPropertiesExcluding(serializedObject, new string[] {"Size","BackgroundPadding", "SortingLayerName", "InitialRotationAngles", "ForegroundColor", "DelayedColor", "BorderColor", "BackgroundColor", "Delay", "LerpFrontBar", "LerpFrontBarSpeed", "LerpDelayedBar", "LerpDelayedBarSpeed", "BumpScaleOnChange", "BumpDuration", "BumpAnimationCurve" });
-            }
-
-			if (HealthBarTarget.HealthBarType == MMHealthBar.HealthBarTypes.Drawn)
-			{
-				Editor.DrawPropertiesExcluding(serializedObject, new string[] {"HealthBarPrefab" });
+				case MMHealthBar.HealthBarTypes.Prefab:
+					Editor.DrawPropertiesExcluding(serializedObject, new string[] {"TargetProgressBar", "NestDrawnHealthBar", "Billboard", "FollowTargetMode", "Size","BackgroundPadding", "SortingLayerName", "InitialRotationAngles", "ForegroundColor", "DelayedColor", "BorderColor", "BackgroundColor", "Delay", "LerpFrontBar", "LerpFrontBarSpeed", "LerpDelayedBar", "LerpDelayedBarSpeed", "BumpScaleOnChange", "BumpDuration", "BumpAnimationCurve" });
+					break;
+				case MMHealthBar.HealthBarTypes.Drawn:
+					Editor.DrawPropertiesExcluding(serializedObject, new string[] {"TargetProgressBar", "HealthBarPrefab" });
+					break;
+				case MMHealthBar.HealthBarTypes.Existing:
+					Editor.DrawPropertiesExcluding(serializedObject, new string[] {"HealthBarPrefab", "NestDrawnHealthBar", "Billboard", "FollowTargetMode", "Size","BackgroundPadding", "SortingLayerName", "InitialRotationAngles", "ForegroundColor", "DelayedColor", "BorderColor", "BackgroundColor", "Delay", "LerpFrontBar", "LerpFrontBarSpeed", "LerpDelayedBar", "LerpDelayedBarSpeed", "BumpScaleOnChange", "BumpDuration", "BumpAnimationCurve" });
+					break;
 			}
 
 			serializedObject.ApplyModifiedProperties();
@@ -38,3 +40,4 @@ namespace MoreMountains.Tools
 
 	}
 }
+#endif

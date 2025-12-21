@@ -1,14 +1,10 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
-using MoreMountains.Tools;
 using UnityEngine.Events;
 
 namespace MoreMountains.Tools
 {
-    [AddComponentMenu("More Mountains/Tools/Activation/MMTriggerAndCollision")]
-    public class MMTriggerAndCollision : MonoBehaviour 
+	[AddComponentMenu("More Mountains/Tools/Activation/MM Trigger And Collision")]
+	public class MMTriggerAndCollision : MonoBehaviour 
 	{
 		public LayerMask CollisionLayerMask;
 		public UnityEvent OnCollisionEnterEvent;
@@ -32,6 +28,7 @@ namespace MoreMountains.Tools
 
 		// Collision 2D ------------------------------------------------------------------------------------
 
+		#if MM_PHYSICS2D
 		protected virtual void OnCollisionEnter2D (Collision2D collision)
 		{
 			if (Collision2DLayerMask.MMContains (collision.gameObject))
@@ -81,6 +78,7 @@ namespace MoreMountains.Tools
 				OnTrigger2DStayEvent.Invoke();
 			}
 		}
+		#endif
 
 		// Collision ------------------------------------------------------------------------------------
 

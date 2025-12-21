@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.46655226, g: 0.67163867, b: 0.85742027, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -665,7 +665,7 @@ GameObject:
   - component: {fileID: 1352947843}
   - component: {fileID: 1352947842}
   m_Layer: 0
-  m_Name: Subject
+  m_Name: Subject - MOVE ME ON THE X AND Z AXIS IN PLAY MODE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

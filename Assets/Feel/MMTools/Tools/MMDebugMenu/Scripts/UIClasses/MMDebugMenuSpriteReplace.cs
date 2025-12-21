@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if MM_UI
+using UnityEngine;
 using System.Collections;
 using System;
 using MoreMountains.Tools;
@@ -18,7 +19,7 @@ namespace MoreMountains.Tools
 		/// if this is true, the button will start if "on" state
 		public bool StartsOn = true;
 		/// the current state of the button
-		public bool CurrentValue { get { return (_image.sprite == OnSprite); } }
+		public virtual bool CurrentValue { get { return (_image.sprite == OnSprite); } }
 
 		protected Image _image;
 		protected MMTouchButton _mmTouchButton;
@@ -110,3 +111,4 @@ namespace MoreMountains.Tools
 		}
 	}
 }
+#endif

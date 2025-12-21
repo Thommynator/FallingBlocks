@@ -1,17 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
-using MoreMountains.Tools;
-using MoreMountains.Feedbacks;
-using UnityEngine.SceneManagement;
+
+#if MM_UI
 
 namespace MoreMountains.Tools
 {
-    /// <summary>
-    /// A class used to display the achievements on screen. 
-    /// The AchievementDisplayItems will be parented to it, so it's better if it has a LayoutGroup (Vertical or Horizontal) too.
-    /// </summary>
-    [AddComponentMenu("More Mountains/Tools/Achievements/MMAchievementDisplayer")]
-    public class MMAchievementDisplayer : MonoBehaviour, MMEventListener<MMAchievementUnlockedEvent>
+	/// <summary>
+	/// A class used to display the achievements on screen. 
+	/// The AchievementDisplayItems will be parented to it, so it's better if it has a LayoutGroup (Vertical or Horizontal) too.
+	/// </summary>
+	[AddComponentMenu("More Mountains/Tools/Achievements/MM Achievement Displayer")]
+	public class MMAchievementDisplayer : MonoBehaviour, MMEventListener<MMAchievementUnlockedEvent>
 	{
 		[Header("Achievements")]
 		/// the prefab to use to display achievements
@@ -103,3 +102,4 @@ namespace MoreMountains.Tools
 		}
 	}
 }
+#endif

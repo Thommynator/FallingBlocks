@@ -9,13 +9,16 @@ namespace MoreMountains.Tools
 	/// This class adds a MoreMountains entry in Unity's top menu, allowing to enable/disable the help texts from the engine's inspectors
 	/// </summary>
 	public static class MMMenuHelp
-    {
+	{
+		public static bool SettingCached = false;
+		public static bool CachedHelpEnabled = false;
+		
 		[MenuItem("Tools/More Mountains/Enable Help in Inspectors", false,0)]
 		/// <summary>
 		/// Adds a menu item to enable help
 		/// </summary>
 		private static void EnableHelpInInspectors()
-	    {
+		{
 			SetHelpEnabled(true);
 		}
 
@@ -25,7 +28,7 @@ namespace MoreMountains.Tools
 		/// </summary>
 		private static bool EnableHelpInInspectorsValidation()
 		{
-			return !HelpEnabled();
+			return !HelpEnabled;
 		}
 
 		[MenuItem("Tools/More Mountains/Disable Help in Inspectors", false,1)]
@@ -33,7 +36,7 @@ namespace MoreMountains.Tools
 		/// Adds a menu item to disable help
 		/// </summary>
 		private static void DisableHelpInInspectors()
-	    {
+		{
 			SetHelpEnabled(false);
 		}
 		 
@@ -43,23 +46,35 @@ namespace MoreMountains.Tools
 		/// </summary>
 		private static bool DisableHelpInInspectorsValidation()
 		{
-			return HelpEnabled();
+			return HelpEnabled;
 		}
 
 		/// <summary>
 		/// Checks editor prefs to see if help is enabled or not
 		/// </summary>
 		/// <returns><c>true</c>, if enabled was helped, <c>false</c> otherwise.</returns>
-		private static bool HelpEnabled()
+		public static bool HelpEnabled
 		{
-			if (EditorPrefs.HasKey("MMShowHelpInInspectors"))
+			get
 			{
-				return EditorPrefs.GetBool("MMShowHelpInInspectors");
-			}
-			else
-			{
-				EditorPrefs.SetBool("MMShowHelpInInspectors",true);
-				return true;
+				if (SettingCached)
+				{
+					return CachedHelpEnabled;
+				}
+			
+				if (EditorPrefs.HasKey("MMShowHelpInInspectors"))
+				{
+					CachedHelpEnabled = EditorPrefs.GetBool("MMShowHelpInInspectors");
+					SettingCached = true;
+					return CachedHelpEnabled;
+				}
+				else
+				{
+					EditorPrefs.SetBool("MMShowHelpInInspectors",true);
+					CachedHelpEnabled = true;
+					SettingCached = true;
+					return CachedHelpEnabled;
+				}
 			}
 		}
 
@@ -70,8 +85,9 @@ namespace MoreMountains.Tools
 		private static void SetHelpEnabled(bool status)
 		{
 			EditorPrefs.SetBool("MMShowHelpInInspectors",status);
+			CachedHelpEnabled = status;
+			SettingCached = true;
 			SceneView.RepaintAll();
-
 		}
 	}
 }
