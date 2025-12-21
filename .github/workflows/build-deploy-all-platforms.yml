@@ -1,0 +1,101 @@
+name: Build & Deploy Multi-Platform
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Build for ${{ matrix.targetPlatform }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        targetPlatform:
+          - WebGL
+          - StandaloneWindows64
+          - StandaloneOSX
+    steps:
+      # Free up disk space to avoid "no space left on device" errors
+      - name: Free Disk Space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      # Extract Unity version from project settings
+      - name: Get Unity Version
+        id: get-unity-version
+        run: |
+          UNITY_VER=$(grep 'm_EditorVersion:' ProjectSettings/ProjectVersion.txt | awk '{print $2}')
+          echo "version=$UNITY_VER" >> $GITHUB_OUTPUT
+
+      # Restore Library cache specifically for each platform
+      - name: Restore Library cache
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-${{ matrix.targetPlatform }}-${{ steps.get-unity-version.outputs.version }}-${{ hashFiles('Packages/manifest.json') }}
+          restore-keys: |
+            Library-${{ matrix.targetPlatform }}-${{ steps.get-unity-version.outputs.version }}-
+            Library-${{ matrix.targetPlatform }}-
+
+      - name: Unity Build
+        uses: game-ci/unity-builder@v4
+        id: unityBuild
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          targetPlatform: ${{ matrix.targetPlatform }}
+          unityVersion: ${{ steps.get-unity-version.outputs.version }}
+          buildName: FallingBlocks
+          buildsPath: build
+          
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-${{ matrix.targetPlatform }}
+          path: build/${{ matrix.targetPlatform }}
+
+  deploy:
+    name: Deploy to itch.io (${{ matrix.targetPlatform }})
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        targetPlatform:
+          - WebGL
+          - StandaloneWindows64
+          - StandaloneOSX
+        # Map Unity platforms to itch.io channels
+        include:
+          - targetPlatform: WebGL
+            itchChannel: html5
+          - targetPlatform: StandaloneWindows64
+            itchChannel: windows
+          - targetPlatform: StandaloneOSX
+            itchChannel: mac
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-${{ matrix.targetPlatform }}
+          path: build/${{ matrix.targetPlatform }}
+
+      - name: Butler Deploy
+        uses: manleydev/butler-publish-itchio-action@master
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+          CHANNEL: ${{ matrix.itchChannel }}
+          ITCH_GAME: falling-blocks
+          ITCH_USER: Exenter
+          PACKAGE: build/${{ matrix.targetPlatform }}
+          VERSION: ${{ github.run_number }}
