@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Create LFS file list
         run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
@@ -41,7 +41,7 @@ jobs:
             Library-
 
       - name: Unity Build
-        uses: game-ci/unity-builder@v2
+        uses: game-ci/unity-builder@v4
         id: unityBuild
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -50,7 +50,7 @@ jobs:
         with:
           versioning: Semantic
           targetPlatform: StandaloneOSX   
-          unityVersion: 2022.1.16f1
+          unityVersion: 6000.0.50f1
           # TODO Change the buildName to the game name
           buildName: FallingBlocks
           buildsPath: build
