@@ -1,10 +1,6 @@
 using UnityEngine;
 
-public class ExplodeNearPlayer : MonoBehaviour
-{
-
-    private GameObject _player;
-
+public class ExplodeNearPlayer : MonoBehaviour {
     [SerializeField] private Explosion _explosion;
 
     [SerializeField] private float _distance;
@@ -12,39 +8,33 @@ public class ExplodeNearPlayer : MonoBehaviour
     private float _distanceSquared;
 
     private bool _isExploded;
+    private GameObject _player;
 
-    void Start()
-    {
+    void Start() {
         _player = GameObject.FindGameObjectWithTag("Player");
         _isExploded = false;
         _distanceSquared = _distance * _distance;
     }
 
-    void Update()
-    {
-        if (!_isExploded && IsCloseToPlayer())
-        {
+    void Update() {
+        if (!_isExploded && IsCloseToPlayer()) {
             _isExploded = true;
             _explosion.Explode();
             Destroy(gameObject);
         }
     }
 
-    private bool IsCloseToPlayer()
-    {
-        return Vector3.SqrMagnitude(transform.position - _player.transform.position) < _distanceSquared;
-    }
-
-    public bool IsExploded()
-    {
-        return _isExploded;
-    }
-
     [ExecuteInEditMode]
-    private void OnDrawGizmos()
-    {
+    private void OnDrawGizmos() {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _distance);
     }
 
+    private bool IsCloseToPlayer() {
+        return Vector3.SqrMagnitude(transform.position - _player.transform.position) < _distanceSquared;
+    }
+
+    public bool IsExploded() {
+        return _isExploded;
+    }
 }

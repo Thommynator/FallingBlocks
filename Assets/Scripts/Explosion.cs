@@ -1,27 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using MoreMountains.Feedbacks;
 
-public class Explosion : MonoBehaviour
-{
+public class Explosion : MonoBehaviour {
     [SerializeField] private float _explosionRadius;
     [SerializeField] private LayerMask _cubeLayer;
-    private MMFeedbacks _explosionFeedback;
+    [SerializeField] private GameObject _explosionFx;
 
-    void Awake()
-    {
-        _explosionFeedback = GetComponent<MMFeedbacks>();
-    }
-
-    public void Explode()
-    {
-        _explosionFeedback.PlayFeedbacks();
+    public void Explode() {
+        Instantiate(_explosionFx, transform.position, Quaternion.identity);
         Collider[] hitObjects = Physics.OverlapSphere(transform.position, _explosionRadius);
-        foreach (var hitObject in hitObjects)
-        {
-            if (hitObject.CompareTag("Player"))
-            {
+        foreach (var hitObject in hitObjects) {
+            if (hitObject.CompareTag("Player")) {
                 hitObject.transform.parent.GetComponent<Rigidbody>().AddExplosionForce(50, transform.position, 3 * _explosionRadius, 1, ForceMode.Impulse);
             }
 

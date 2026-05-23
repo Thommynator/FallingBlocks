@@ -44,14 +44,14 @@ Light:
   serializedVersion: 11
   m_Type: 0
   m_Color: {r: 0.7075472, g: 0.19023673, b: 0.19023673, a: 1}
-  m_Intensity: 10
-  m_Range: 50
-  m_SpotAngle: 165.5952
-  m_InnerSpotAngle: 157.39728
+  m_Intensity: 3
+  m_Range: 10
+  m_SpotAngle: 140.51495
+  m_InnerSpotAngle: 87.01086
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
-    m_Resolution: -1
+    m_Type: 2
+    m_Resolution: 128
     m_CustomResolution: -1
     m_Strength: 1
     m_Bias: 0.05
@@ -81,9 +81,9 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 960
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -93,7 +93,7 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ForceVisible: 0
-  m_ShadowRadius: 0
+  m_ShadowRadius: 1
   m_ShadowAngle: 0
   m_LightUnit: 1
   m_LuxAtDistance: 1
@@ -112,7 +112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Version: 3
   m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 2
+  m_AdditionalLightsShadowResolutionTier: 0
   m_LightLayerMask: 1
   m_RenderingLayers: 1
   m_CustomShadowLayers: 0
@@ -307,8 +307,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementProperties: {fileID: 11400000, guid: 821e62628ea72794382dbeedaed7c388, type: 2}
-  _maxSpeed: 150
-  _steeringForce: 150
 --- !u!114 &634604879051023494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,14 +379,14 @@ Light:
   serializedVersion: 11
   m_Type: 0
   m_Color: {r: 0.7075472, g: 0.19023673, b: 0.19023673, a: 1}
-  m_Intensity: 10
-  m_Range: 50
-  m_SpotAngle: 165.5952
-  m_InnerSpotAngle: 157.39728
+  m_Intensity: 3
+  m_Range: 10
+  m_SpotAngle: 140.51495
+  m_InnerSpotAngle: 87.01086
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
-    m_Resolution: -1
+    m_Type: 2
+    m_Resolution: 128
     m_CustomResolution: -1
     m_Strength: 1
     m_Bias: 0.05
@@ -418,9 +416,9 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 960
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -430,7 +428,7 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ForceVisible: 0
-  m_ShadowRadius: 0
+  m_ShadowRadius: 1
   m_ShadowAngle: 0
   m_LightUnit: 1
   m_LuxAtDistance: 1
@@ -449,7 +447,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Version: 3
   m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 2
+  m_AdditionalLightsShadowResolutionTier: 0
   m_LightLayerMask: 1
   m_RenderingLayers: 1
   m_CustomShadowLayers: 0

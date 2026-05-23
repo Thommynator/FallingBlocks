@@ -39,7 +39,6 @@ public class Jumper : MonoBehaviour {
             return;
         }
 
-        Debug.Log($"Is jumping {_isJumping}");
         if (_isJumping || !CanCoyoteJump()) {
             return;
         }
@@ -53,7 +52,6 @@ public class Jumper : MonoBehaviour {
         }
 
         _body.AddForce(jumpProperties.jumpForceFactor * Vector3.up, ForceMode.Impulse);
-        Debug.Log("JUMP");
         _isJumping = true;
     }
 
