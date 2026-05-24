@@ -1,112 +1,101 @@
-using UnityEngine;
-using TMPro;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
+using Sisus.Init;
+using TMPro;
+using UnityEngine;
 
-public class CollectablesManager : MonoBehaviour
-{
-
-    public static CollectablesManager Instance;
+public class CollectablesManager : MonoBehaviour<LevelGenerator> {
+    [SerializeField] private int collectedSpecialMobility;
+    [SerializeField] private int maxSpecialMobility;
+    [SerializeField] private TextMeshProUGUI scorePointText;
+    [SerializeField] private TextMeshProUGUI highscorePointText;
+    [SerializeField] private TextMeshProUGUI specialMobilityText;
+    [SerializeField] private int spawnIntervalSeconds;
+    [SerializeField] private int maxExistingCollectables;
+    [SerializeField] private List<Collectable> collectablePrefabs;
     private int _collectedScorePoints = 0;
     private int _highscore;
-    [SerializeField] private int _collectedSpaceJumps;
-    [SerializeField] private int _maxSpaceJumps;
-    [SerializeField] private TextMeshProUGUI _scorePointText;
-    [SerializeField] private TextMeshProUGUI _highscorePointText;
-    [SerializeField] private TextMeshProUGUI _spaceJumpsText;
-    [SerializeField] private int _spawnIntervalSeconds;
-    [SerializeField] private int _maxExistingCollectables;
-    [SerializeField] private List<Collectable> _collectablePrefabs;
+    private LevelGenerator _levelGenerator;
 
-
-    void Awake()
-    {
-        Instance = this;
-        _highscore = PlayerPrefs.GetInt("highscore", 0);
-    }
-
-    void Start()
-    {
+    void Start() {
         UpdateScoreUi();
         UpdateSpaceJumpsUi();
         StartCoroutine(SpawnRandomCollectable());
     }
 
 
-    public void Collect(CollectableType collectable)
-    {
-        if (collectable == CollectableType.SCORE_POINT)
-        {
-            CollectScorePoint();
-        }
-        else if (collectable == CollectableType.SPACE_JUMP)
-        {
-            CollectSpaceJump();
+    protected override void OnAwake() {
+        base.OnAwake();
+        _highscore = PlayerPrefs.GetInt("highscore", 0);
+    }
+
+    protected override void Init(LevelGenerator levelGenerator) {
+        _levelGenerator = levelGenerator;
+    }
+
+
+    public void Collect(CollectableType collectable) {
+        switch (collectable) {
+            case CollectableType.SCORE_POINT:
+                CollectScorePoint();
+                break;
+            case CollectableType.SPECIAL_MOBILITY:
+                CollectSpecialMobility();
+                break;
         }
     }
 
-    private void CollectSpaceJump()
-    {
-        _collectedSpaceJumps = Mathf.Min(_collectedSpaceJumps + 1, _maxSpaceJumps);
+    private void CollectSpecialMobility() {
+        collectedSpecialMobility = Mathf.Min(collectedSpecialMobility + 1, maxSpecialMobility);
         UpdateSpaceJumpsUi();
     }
 
-    public bool TryToUseSpaceJump()
-    {
-        if (_collectedSpaceJumps <= 0)
-        {
+    public bool TryToUseSpaceJump() {
+        if (collectedSpecialMobility <= 0) {
             return false;
         }
-        _collectedSpaceJumps--;
+
+        collectedSpecialMobility--;
         UpdateSpaceJumpsUi();
         return true;
     }
 
-    private void CollectScorePoint()
-    {
+    private void CollectScorePoint() {
         _collectedScorePoints += 10;
         UpdateHighscore();
         UpdateScoreUi();
     }
 
-    private void UpdateHighscore()
-    {
-        if(_collectedScorePoints > _highscore)
-        {
+    private void UpdateHighscore() {
+        if (_collectedScorePoints > _highscore) {
             _highscore = _collectedScorePoints;
             PlayerPrefs.SetInt("highscore", _highscore);
         }
     }
 
-    private void UpdateScoreUi()
-    {
-        _scorePointText.text = _collectedScorePoints.ToString();
-        _highscorePointText.text = _highscore.ToString();
+    private void UpdateScoreUi() {
+        scorePointText.text = _collectedScorePoints.ToString();
+        highscorePointText.text = _highscore.ToString();
     }
 
-    private void UpdateSpaceJumpsUi()
-    {
-        _spaceJumpsText.text = $"{_collectedSpaceJumps}/{_maxSpaceJumps}";
+    private void UpdateSpaceJumpsUi() {
+        specialMobilityText.text = $"{collectedSpecialMobility}/{maxSpecialMobility}";
     }
 
-    private IEnumerator SpawnRandomCollectable()
-    {
-        while (true)
-        {
-            while (transform.childCount < _maxExistingCollectables)
-            {
-                Vector3 spawnPosition = LevelGenerator.Instance.GetRandomCubePosition();
-                Collectable collectable = Instantiate(_collectablePrefabs.PickRandom(), spawnPosition + Vector3.up, Quaternion.identity);
-                collectable.transform.SetParent(this.transform);
+    private IEnumerator SpawnRandomCollectable() {
+        while (true) {
+            while (transform.childCount < maxExistingCollectables) {
+                Vector3 spawnPosition = _levelGenerator.GetRandomCubePosition();
+                Collectable collectable = Instantiate(collectablePrefabs.PickRandom(), spawnPosition + Vector3.up, Quaternion.identity);
+                collectable.transform.SetParent(transform);
             }
-            yield return new WaitForSeconds(_spawnIntervalSeconds);
+
+            yield return new WaitForSeconds(spawnIntervalSeconds);
         }
     }
-
 }
 
-public enum CollectableType
-{
+public enum CollectableType {
     SCORE_POINT = 0,
-    SPACE_JUMP = 1
+    SPECIAL_MOBILITY = 1
 }

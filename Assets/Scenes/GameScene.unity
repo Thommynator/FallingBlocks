@@ -1270,7 +1270,7 @@ GameObject:
   m_Component:
   - component: {fileID: 403129346}
   m_Layer: 5
-  m_Name: SpaceJumpWrapper
+  m_Name: SpecialMobilityWrapper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2542,6 +2542,7 @@ GameObject:
   m_Component:
   - component: {fileID: 835928744}
   - component: {fileID: 835928743}
+  - component: {fileID: 835928745}
   m_Layer: 0
   m_Name: LevelGenerator
   m_TagString: Untagged
@@ -2561,9 +2562,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b02a159fc59108419260307c8cf7a5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cubePrefab: {fileID: 873059604971108952, guid: ab6371b1a80c09e42b741fea4ef23a0b, type: 3}
-  _rows: 40
-  _cols: 40
+  cubePrefab: {fileID: 873059604971108952, guid: ab6371b1a80c09e42b741fea4ef23a0b, type: 3}
+  rows: 40
+  cols: 40
 --- !u!4 &835928744
 Transform:
   m_ObjectHideFlags: 0
@@ -2579,6 +2580,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &835928745
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 835928742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a0a779e9bbcba646a5e1b890dbb3f5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  service: {fileID: 835928743}
+  toClients: 6
+  definingType:
+    scriptAssetGuid: 0b02a159fc59108419260307c8cf7a5b
+    TypeNameAndAssembly: LevelGenerator, Assembly-CSharp
 --- !u!1 &878962726
 GameObject:
   m_ObjectHideFlags: 0
@@ -4439,7 +4457,7 @@ GameObject:
   - component: {fileID: 1434735862}
   - component: {fileID: 1434735861}
   m_Layer: 5
-  m_Name: SpaceJumps
+  m_Name: SpecialMobilities
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5139,7 +5157,7 @@ MonoBehaviour:
   enemies:
   - {fileID: 437054883150714914, guid: 5906d162b70356644b492a250b7e0f8a, type: 3}
   - {fileID: 3506581096623066114, guid: a1f9c3c2a1a05ee4db7c4faa1510ea60, type: 3}
-  - {fileID: 392743147803819644, guid: d52e2ca0a1c63e5489a1bed8913d06bc, type: 3}
+  - {fileID: 7231101568842297644, guid: d52e2ca0a1c63e5489a1bed8913d06bc, type: 3}
 --- !u!1 &1687258581
 GameObject:
   m_ObjectHideFlags: 0
@@ -5923,6 +5941,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1877902734}
   - component: {fileID: 1877902733}
+  - component: {fileID: 1877902735}
   m_Layer: 0
   m_Name: Collectables
   m_TagString: Untagged
@@ -5942,14 +5961,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1463f6fcae03cfa43b7f82d39fc007cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collectedSpaceJumps: 2
-  _maxSpaceJumps: 5
-  _scorePointText: {fileID: 1135140990}
-  _highscorePointText: {fileID: 1799451630}
-  _spaceJumpsText: {fileID: 1434735861}
-  _spawnIntervalSeconds: 5
-  _maxExistingCollectables: 5
-  _collectablePrefabs:
+  collectedSpecialMobility: 2
+  maxSpecialMobility: 5
+  scorePointText: {fileID: 1135140990}
+  highscorePointText: {fileID: 1799451630}
+  specialMobilityText: {fileID: 1434735861}
+  spawnIntervalSeconds: 5
+  maxExistingCollectables: 5
+  collectablePrefabs:
   - {fileID: 2995870517160283696, guid: af0d71a228a9a6846960a406116e01bf, type: 3}
   - {fileID: 6966552951271706199, guid: 2bb0940ab5439f740bae6179f486f3d1, type: 3}
 --- !u!4 &1877902734
@@ -5967,6 +5986,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1877902735
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1877902732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a0a779e9bbcba646a5e1b890dbb3f5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  service: {fileID: 1877902733}
+  toClients: 6
+  definingType:
+    scriptAssetGuid: 1463f6fcae03cfa43b7f82d39fc007cc
+    TypeNameAndAssembly: CollectablesManager, Assembly-CSharp
 --- !u!1 &1898862927
 GameObject:
   m_ObjectHideFlags: 0
@@ -8017,7 +8053,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6966552952244744322}
   m_Layer: 0
-  m_Name: SpaceJump
+  m_Name: SpecialMobility
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

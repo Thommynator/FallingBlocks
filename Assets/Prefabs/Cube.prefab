@@ -136,11 +136,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 135b6f2bc7ee737469f43956945401d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fallDelaySeconds: 0.2
-  _spawnFeedback: {fileID: 5701324292788640942}
-  _touchedFeedback: {fileID: 6984116154646267617}
-  _fallingFeedback: {fileID: 2219325232872847845}
-  _originalMaterial: {fileID: 2100000, guid: 8cc0fc676f3c21148b203d47f2ee74d4, type: 2}
+  fallDelaySeconds: 0.2
+  spawnFeedback: {fileID: 5701324292788640942}
+  touchedFeedback: {fileID: 6984116154646267617}
+  fallingFeedback: {fileID: 2219325232872847845}
+  originalMaterial: {fileID: 2100000, guid: 8cc0fc676f3c21148b203d47f2ee74d4, type: 2}
 --- !u!65 &873059604971108955
 BoxCollider:
   m_ObjectHideFlags: 0

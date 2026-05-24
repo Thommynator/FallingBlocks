@@ -6,17 +6,19 @@ using Sisus.Init;
 using UnityEngine;
 
 namespace Enemies.Spawn {
-    public class EnemySpawner : MonoBehaviour<PlayerController> {
+    public class EnemySpawner : MonoBehaviour<PlayerController, LevelGenerator> {
         [SerializeField] private List<SpawnWave> spawnWaves;
         private int _currentWave;
+        private LevelGenerator _levelGenerator;
         private PlayerController _player;
 
         private void Start() {
             StartCoroutine(WaveLoop());
         }
 
-        protected override void Init(PlayerController player) {
+        protected override void Init(PlayerController player, LevelGenerator levelGenerator) {
             _player = player;
+            _levelGenerator = levelGenerator;
         }
 
         private IEnumerator WaveLoop() {
@@ -42,7 +44,7 @@ namespace Enemies.Spawn {
         private Vector3 GetSpawnPosition() {
             Vector3 spawnPosition;
             do {
-                spawnPosition = LevelGenerator.Instance.GetRandomCubePosition();
+                spawnPosition = _levelGenerator.GetRandomCubePosition();
             } while (spawnPosition.IsNear(_player.transform.position, 3));
 
             return spawnPosition;

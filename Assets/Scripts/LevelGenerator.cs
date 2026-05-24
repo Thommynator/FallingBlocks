@@ -7,9 +7,9 @@ using UnityEngine.Pool;
 public class LevelGenerator : MonoBehaviour {
     public static LevelGenerator Instance;
 
-    [SerializeField] private Cube _cubePrefab;
-    [SerializeField] private int _rows;
-    [SerializeField] private int _cols;
+    [SerializeField] private Cube cubePrefab;
+    [SerializeField] private int rows;
+    [SerializeField] private int cols;
     private ObjectPool<Cube> _cubePool;
 
     private Dictionary<Vector2Int, Cube> _map;
@@ -25,31 +25,31 @@ public class LevelGenerator : MonoBehaviour {
         Instance = this;
         _map = new Dictionary<Vector2Int, Cube>();
         _cubePool = new ObjectPool<Cube>(
-            () => Instantiate(_cubePrefab),
+            () => Instantiate(cubePrefab),
             cube => { cube.SpawnActions(); },
             cube => { cube.DeactivationActions(); },
             cube => Destroy(cube.gameObject),
             true,
-            _rows * _cols,
-            Mathf.RoundToInt((_rows * _cols) * 1.3f)
+            rows * cols,
+            Mathf.RoundToInt((rows * cols) * 1.3f)
         );
     }
 
     void Start() {
-        var halfCols = _cols / 2;
+        var halfCols = cols / 2;
         _minCoordinates = new Vector3(-halfCols, 0, 0);
-        _maxCoordinates = new Vector3(halfCols, 0, _rows);
+        _maxCoordinates = new Vector3(halfCols, 0, rows);
 
-        for (var col = 0; col < _cols; col++) {
-            for (var row = 0; row < _rows; row++) {
+        for (var col = 0; col < cols; col++) {
+            for (var row = 0; row < rows; row++) {
                 CreateNewCubeAtIfNotExisting(new Vector3(col - halfCols, 0, row));
             }
         }
     }
-    
+
     private void OnDrawGizmos() {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(new Vector3(0, 0, _rows / 2), new Vector3(_rows, 3, _cols));
+        Gizmos.DrawWireCube(new Vector3(0, 0, rows / 2), new Vector3(rows, 3, cols));
     }
 
     private bool ExistsCubeAt(Vector3 position) {

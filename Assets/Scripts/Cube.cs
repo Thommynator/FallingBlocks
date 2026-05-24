@@ -1,38 +1,29 @@
 using System.Collections;
 using MoreMountains.Feedbacks;
+using Sisus.Init;
 using UnityEngine;
 
-public class Cube : MonoBehaviour {
-    [SerializeField] private float _fallDelaySeconds;
+public class Cube : MonoBehaviour<LevelGenerator> {
+    [SerializeField] private float fallDelaySeconds;
 
-    [SerializeField] private MMF_Player _spawnFeedback;
-    [SerializeField] private MMF_Player _touchedFeedback;
-    [SerializeField] private MMF_Player _fallingFeedback;
-    [SerializeField] private Material _originalMaterial;
+    [SerializeField] private MMF_Player spawnFeedback;
+    [SerializeField] private MMF_Player touchedFeedback;
+    [SerializeField] private MMF_Player fallingFeedback;
+    [SerializeField] private Material originalMaterial;
+
+    private readonly int _respawnHeight = -5;
     private Rigidbody _body;
     private BoxCollider _boxCollider;
     private WaitForSeconds _fallDelayWaitForSeconds;
     private bool _isBelowRespawnHeight = false;
+    private LevelGenerator _levelGenerator;
     private MeshRenderer _meshRenderer;
-
-    private int _respawnHeight = -5;
-
-    void Awake() {
-        _body = GetComponent<Rigidbody>();
-        _boxCollider = GetComponent<BoxCollider>();
-        _meshRenderer = GetComponentInChildren<MeshRenderer>();
-        _meshRenderer.material = _originalMaterial;
-        _spawnFeedback.Initialization();
-        _touchedFeedback.Initialization();
-        _fallingFeedback.Initialization();
-        _fallDelayWaitForSeconds = new WaitForSeconds(_fallDelaySeconds);
-    }
 
     void Update() {
         if (!_isBelowRespawnHeight && transform.position.y < _respawnHeight) {
-            // Cube can be resetted when below the respawn height, but only once
+            // Cube can be reset when below the respawn height, but only once
             _isBelowRespawnHeight = true;
-            StartCoroutine(LevelGenerator.Instance.ResetCube(this));
+            StartCoroutine(_levelGenerator.ResetCube(this));
         }
     }
 
@@ -40,6 +31,22 @@ public class Cube : MonoBehaviour {
         if (collision.gameObject.CompareTag("Player")) {
             TriggerFall();
         }
+    }
+
+    protected override void OnAwake() {
+        base.OnAwake();
+        _body = GetComponent<Rigidbody>();
+        _boxCollider = GetComponent<BoxCollider>();
+        _meshRenderer = GetComponentInChildren<MeshRenderer>();
+        _meshRenderer.material = originalMaterial;
+        spawnFeedback.Initialization();
+        touchedFeedback.Initialization();
+        fallingFeedback.Initialization();
+        _fallDelayWaitForSeconds = new WaitForSeconds(fallDelaySeconds);
+    }
+
+    protected override void Init(LevelGenerator levelGenerator) {
+        _levelGenerator = levelGenerator;
     }
 
     public void SetPosition(Vector3 newPosition) {
@@ -54,7 +61,7 @@ public class Cube : MonoBehaviour {
         _body.isKinematic = true;
         _boxCollider.enabled = true;
         gameObject.SetActive(true);
-        _spawnFeedback.PlayFeedbacks();
+        spawnFeedback.PlayFeedbacks();
     }
 
     public void DeactivationActions() {
@@ -69,15 +76,15 @@ public class Cube : MonoBehaviour {
     }
 
     private IEnumerator Fall() {
-        _touchedFeedback.PlayFeedbacks();
+        touchedFeedback.PlayFeedbacks();
         yield return new WaitForSeconds(Random.Range(0, 0.5f));
-        _fallingFeedback.PlayFeedbacks();
+        fallingFeedback.PlayFeedbacks();
         yield return _fallDelayWaitForSeconds;
         _boxCollider.enabled = false;
         _body.isKinematic = false;
     }
 
     private void ResetToOriginalColor() {
-        _meshRenderer.material = _originalMaterial;
+        _meshRenderer.material = originalMaterial;
     }
 }

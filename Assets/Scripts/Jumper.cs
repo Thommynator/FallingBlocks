@@ -1,18 +1,18 @@
 using System.Collections;
 using MoreMountains.Feedbacks;
 using ScriptableObjects;
+using Sisus.Init;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
-public class Jumper : MonoBehaviour {
+public class Jumper : MonoBehaviour<CollectablesManager> {
     [SerializeField] private JumpProperties jumpProperties;
     [SerializeField] private MMF_Player spaceJumpFeedback;
 
-    [FormerlySerializedAs("groundLayer")] [SerializeField]
-    private LayerMask groundLayerMask;
+    [SerializeField] private LayerMask groundLayerMask;
 
     private Rigidbody _body;
+    private CollectablesManager _collectablesManager;
     private bool _isJumping;
     private float _lastGroundedTime;
 
@@ -26,6 +26,10 @@ public class Jumper : MonoBehaviour {
             _lastGroundedTime = Time.time;
             _isJumping = false;
         }
+    }
+
+    protected override void Init(CollectablesManager collectablesManager) {
+        _collectablesManager = collectablesManager;
     }
 
     // Used in Input System Event
@@ -56,7 +60,7 @@ public class Jumper : MonoBehaviour {
             return;
         }
 
-        if (!CollectablesManager.Instance.TryToUseSpaceJump()) return;
+        if (!_collectablesManager.TryToUseSpaceJump()) return;
         spaceJumpFeedback.PlayFeedbacks();
         StartCoroutine(SpaceJumpLoop());
     }
