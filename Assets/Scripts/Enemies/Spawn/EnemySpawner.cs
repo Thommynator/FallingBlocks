@@ -1,44 +1,45 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using ScriptableObjects;
 using UnityEngine;
 
 namespace Enemies.Spawn {
-    public class EnemySpawner : MonoBehaviour
-    {
+    public class EnemySpawner : MonoBehaviour {
+        [SerializeField] private List<SpawnWave> spawnWaves;
+        private int _currentWave;
 
-        [SerializeField] private BaseEnemy enemyPrefab;
-        [SerializeField] private float waitTimeInSeconds;
-        [SerializeField] private float chance;
-        private WaitForSeconds _spawnWaitForSeconds;
-
-        private void Awake()
-        {
-            _spawnWaitForSeconds = new WaitForSeconds(waitTimeInSeconds);
+        private void Start() {
+            StartCoroutine(WaveLoop());
         }
 
-        void Start()
-        {
-            StartCoroutine(spawnLoop());
-        }
+        private IEnumerator WaveLoop() {
+            while (true) {
+                var spawnWave = spawnWaves[_currentWave];
+                Debug.Log($"Starting wave {spawnWave.name}");
+                var coroutines = spawnWave.spawnProperties.Select(spawnProperty => StartCoroutine(StartSpawnLoop(spawnProperty))).ToList();
 
-        private void spawnRandomEnemy() {
-            if (!(Random.Range(0.0f, 1.0f) <= chance)) return;
-            Vector3 spawnPosition = LevelGenerator.Instance.GetRandomCubePosition();
-            Instantiate(enemyPrefab, spawnPosition + 2 * Vector3.up, Quaternion.identity);
-        }
+                yield return new WaitForSeconds(spawnWave.waveDurationSeconds);
 
-        private void spawnWave() {
-            
-        }
+                foreach (var coroutine in coroutines) {
+                    StopCoroutine(coroutine);
+                }
 
-        private IEnumerator spawnLoop()
-        {
-            while (true)
-            {
-                yield return _spawnWaitForSeconds;
-                spawnRandomEnemy();
+                _currentWave = (_currentWave + 1) % spawnWaves.Count;
             }
         }
 
+        private void SpawnGameObject(SpawnProperties spawnProperty) {
+            Vector3 spawnPosition = LevelGenerator.Instance.GetRandomCubePosition();
+            Instantiate(spawnProperty.prefab, spawnPosition + 2 * Vector3.up, Quaternion.identity);
+        }
 
+
+        private IEnumerator StartSpawnLoop(SpawnProperties spawnProperties) {
+            while (true) {
+                SpawnGameObject(spawnProperties);
+                yield return new WaitForSeconds(spawnProperties.spawnIntervalSeconds);
+            }
+        }
     }
 }

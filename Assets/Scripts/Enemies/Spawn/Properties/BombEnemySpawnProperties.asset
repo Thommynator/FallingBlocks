@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d09aaecbe2f484faf072fa9201913e1, type: 3}
+  m_Name: BombEnemySpawnProperties
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 3506581096623066115, guid: a1f9c3c2a1a05ee4db7c4faa1510ea60, type: 3}
+  spawnIntervalSeconds: 5
+  batchSize: 1
