@@ -8,8 +8,10 @@ namespace Enemies.Spawn {
     public class EnemySpawner : MonoBehaviour {
         [SerializeField] private List<SpawnWave> spawnWaves;
         private int _currentWave;
+        private PlayerController _player;
 
         private void Start() {
+            _player = FindFirstObjectByType<PlayerController>();
             StartCoroutine(WaveLoop());
         }
 
@@ -30,8 +32,16 @@ namespace Enemies.Spawn {
         }
 
         private void SpawnGameObject(SpawnProperties spawnProperty) {
-            Vector3 spawnPosition = LevelGenerator.Instance.GetRandomCubePosition();
-            Instantiate(spawnProperty.prefab, spawnPosition + 2 * Vector3.up, Quaternion.identity);
+            Instantiate(spawnProperty.prefab, GetSpawnPosition() + 2 * Vector3.up, Quaternion.identity);
+        }
+
+        private Vector3 GetSpawnPosition() {
+            Vector3 spawnPosition;
+            do {
+                spawnPosition = LevelGenerator.Instance.GetRandomCubePosition();
+            } while (spawnPosition.IsNear(_player.transform.position, 3));
+
+            return spawnPosition;
         }
 
 
