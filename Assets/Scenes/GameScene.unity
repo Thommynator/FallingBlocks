@@ -5078,9 +5078,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19ae504707488cb43aa864363c77a73a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyPrefab: {fileID: 3506581096623066114, guid: a1f9c3c2a1a05ee4db7c4faa1510ea60, type: 3}
-  _waitTimeInSeconds: 5
-  _chance: 0.5
+  enemyPrefab: {fileID: 0}
+  waitTimeInSeconds: 0
+  chance: 0
 --- !u!4 &1673539965
 Transform:
   m_ObjectHideFlags: 0
@@ -5108,9 +5108,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19ae504707488cb43aa864363c77a73a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyPrefab: {fileID: 392743147803819644, guid: d52e2ca0a1c63e5489a1bed8913d06bc, type: 3}
-  _waitTimeInSeconds: 10
-  _chance: 0.3
+  enemyPrefab: {fileID: 0}
+  waitTimeInSeconds: 0
+  chance: 0
 --- !u!114 &1673539967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5123,9 +5123,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19ae504707488cb43aa864363c77a73a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyPrefab: {fileID: 437054883150714914, guid: 5906d162b70356644b492a250b7e0f8a, type: 3}
-  _waitTimeInSeconds: 3
-  _chance: 0.8
+  enemyPrefab: {fileID: 0}
+  waitTimeInSeconds: 0
+  chance: 0
 --- !u!114 &1673539968
 MonoBehaviour:
   m_ObjectHideFlags: 0

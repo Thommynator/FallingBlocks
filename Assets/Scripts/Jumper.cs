@@ -28,11 +28,6 @@ public class Jumper : MonoBehaviour {
         }
     }
 
-    private void OnDrawGizmos() {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(_body.position, jumpProperties.blastRadius);
-    }
-
     // Used in Input System Event
     public void Jump(InputAction.CallbackContext context) {
         if (context.phase != InputActionPhase.Performed) {
