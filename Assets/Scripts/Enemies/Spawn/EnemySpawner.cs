@@ -2,17 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ScriptableObjects;
+using Sisus.Init;
 using UnityEngine;
 
 namespace Enemies.Spawn {
-    public class EnemySpawner : MonoBehaviour {
+    public class EnemySpawner : MonoBehaviour<PlayerController> {
         [SerializeField] private List<SpawnWave> spawnWaves;
         private int _currentWave;
         private PlayerController _player;
 
         private void Start() {
-            _player = FindFirstObjectByType<PlayerController>();
             StartCoroutine(WaveLoop());
+        }
+
+        protected override void Init(PlayerController player) {
+            _player = player;
         }
 
         private IEnumerator WaveLoop() {

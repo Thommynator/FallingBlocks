@@ -2978,6 +2978,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d91add899db497db8a68373ac7b3ed4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &992509944 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3712312267022405295, guid: aa8dd976572f6a947a435bc7f4f6c40d, type: 3}
+  m_PrefabInstance: {fileID: 3712312267373179231}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 986269060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42c9949fec5a6c64aa48fbc6d0e75521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &992509945
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 986269060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a0a779e9bbcba646a5e1b890dbb3f5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  service: {fileID: 992509944}
+  toClients: 6
+  definingType:
+    scriptAssetGuid: 42c9949fec5a6c64aa48fbc6d0e75521
+    TypeNameAndAssembly: PlayerController, Assembly-CSharp
 --- !u!1 &1066157817
 GameObject:
   m_ObjectHideFlags: 0
@@ -7188,7 +7216,10 @@ PrefabInstance:
     - {fileID: 3424666175741829837, guid: aa8dd976572f6a947a435bc7f4f6c40d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3712312267022405297, guid: aa8dd976572f6a947a435bc7f4f6c40d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 992509945}
   m_SourcePrefab: {fileID: 100100000, guid: aa8dd976572f6a947a435bc7f4f6c40d, type: 3}
 --- !u!1 &6966552950632369637
 GameObject:
