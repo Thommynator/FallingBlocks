@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 public class Jumper : MonoBehaviour<CollectablesManager> {
     [SerializeField] private JumpProperties jumpProperties;
     [SerializeField] private MMF_Player spaceJumpFeedback;
+    [SerializeField] private MMF_Player dashFeedback;
 
     [SerializeField] private LayerMask groundLayerMask;
 
@@ -60,9 +61,20 @@ public class Jumper : MonoBehaviour<CollectablesManager> {
             return;
         }
 
-        if (!_collectablesManager.TryToUseSpaceJump()) return;
+        if (!_collectablesManager.TryToUseSpecialMobility()) return;
         spaceJumpFeedback.PlayFeedbacks();
         StartCoroutine(SpaceJumpLoop());
+    }
+
+    // Used in Input System Event
+    public void Dash(InputAction.CallbackContext context) {
+        if (context.phase != InputActionPhase.Performed) {
+            return;
+        }
+
+        if (!_collectablesManager.TryToUseSpecialMobility()) return;
+        dashFeedback.PlayFeedbacks();
+        _body.AddForce(_body.linearVelocity.normalized * jumpProperties.dashForceFactor, ForceMode.Impulse);
     }
 
     private bool IsInLayerMask(GameObject obj, LayerMask layerMask) {

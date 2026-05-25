@@ -19,7 +19,7 @@ public class CollectablesManager : MonoBehaviour<LevelGenerator> {
 
     void Start() {
         UpdateScoreUi();
-        UpdateSpaceJumpsUi();
+        UpdateSpecialMobilityUi();
         StartCoroutine(SpawnRandomCollectable());
     }
 
@@ -47,16 +47,16 @@ public class CollectablesManager : MonoBehaviour<LevelGenerator> {
 
     private void CollectSpecialMobility() {
         collectedSpecialMobility = Mathf.Min(collectedSpecialMobility + 1, maxSpecialMobility);
-        UpdateSpaceJumpsUi();
+        UpdateSpecialMobilityUi();
     }
 
-    public bool TryToUseSpaceJump() {
+    public bool TryToUseSpecialMobility() {
         if (collectedSpecialMobility <= 0) {
             return false;
         }
 
         collectedSpecialMobility--;
-        UpdateSpaceJumpsUi();
+        UpdateSpecialMobilityUi();
         return true;
     }
 
@@ -78,7 +78,7 @@ public class CollectablesManager : MonoBehaviour<LevelGenerator> {
         highscorePointText.text = _highscore.ToString();
     }
 
-    private void UpdateSpaceJumpsUi() {
+    private void UpdateSpecialMobilityUi() {
         specialMobilityText.text = $"{collectedSpecialMobility}/{maxSpecialMobility}";
     }
 

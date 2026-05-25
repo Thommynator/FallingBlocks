@@ -18,3 +18,4 @@ MonoBehaviour:
   blastRadius: 3
   spaceJumpForceFactor: 200
   spaceJumpIterations: 10
+  dashForceFactor: 20

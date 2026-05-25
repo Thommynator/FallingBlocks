@@ -9,5 +9,6 @@ namespace ScriptableObjects {
         public float blastRadius;
         public float spaceJumpForceFactor;
         public float spaceJumpIterations;
+        public float dashForceFactor;
     }
 }
