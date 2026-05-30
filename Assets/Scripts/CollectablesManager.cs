@@ -85,7 +85,8 @@ public class CollectablesManager : MonoBehaviour<LevelGenerator> {
     private IEnumerator SpawnRandomCollectable() {
         while (true) {
             while (transform.childCount < maxExistingCollectables) {
-                Vector3 spawnPosition = _levelGenerator.GetRandomCubePosition();
+                Vector3 cubePosition = _levelGenerator.GetRandomCubePosition();
+                var spawnPosition = new Vector3(cubePosition.x, 0, cubePosition.z); // because we don't want to spawn on a falling block below the field
                 Collectable collectable = Instantiate(collectablePrefabs.PickRandom(), spawnPosition + Vector3.up, Quaternion.identity);
                 collectable.transform.SetParent(transform);
             }

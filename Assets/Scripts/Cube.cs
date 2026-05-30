@@ -1,40 +1,24 @@
 using System.Collections;
 using MoreMountains.Feedbacks;
-using Sisus.Init;
 using UnityEngine;
 
-public class Cube : MonoBehaviour<LevelGenerator> {
+public class Cube : MonoBehaviour {
     [SerializeField] private float fallDelaySeconds;
+    [SerializeField] private float fallDurationSeconds;
 
     [SerializeField] private MMF_Player spawnFeedback;
     [SerializeField] private MMF_Player touchedFeedback;
     [SerializeField] private MMF_Player fallingFeedback;
     [SerializeField] private Material originalMaterial;
 
-    private readonly int _respawnHeight = -5;
     private Rigidbody _body;
     private BoxCollider _boxCollider;
     private WaitForSeconds _fallDelayWaitForSeconds;
-    private bool _isBelowRespawnHeight = false;
-    private LevelGenerator _levelGenerator;
+    private WaitForSeconds _fallDurationWaitForSeconds;
+
     private MeshRenderer _meshRenderer;
 
-    void Update() {
-        if (!_isBelowRespawnHeight && transform.position.y < _respawnHeight) {
-            // Cube can be reset when below the respawn height, but only once
-            _isBelowRespawnHeight = true;
-            StartCoroutine(_levelGenerator.ResetCube(this));
-        }
-    }
-
-    void OnCollisionEnter(Collision collision) {
-        if (collision.gameObject.CompareTag("Player")) {
-            TriggerFall();
-        }
-    }
-
-    protected override void OnAwake() {
-        base.OnAwake();
+    protected void Awake() {
         _body = GetComponent<Rigidbody>();
         _boxCollider = GetComponent<BoxCollider>();
         _meshRenderer = GetComponentInChildren<MeshRenderer>();
@@ -43,10 +27,13 @@ public class Cube : MonoBehaviour<LevelGenerator> {
         touchedFeedback.Initialization();
         fallingFeedback.Initialization();
         _fallDelayWaitForSeconds = new WaitForSeconds(fallDelaySeconds);
+        _fallDurationWaitForSeconds = new WaitForSeconds(fallDurationSeconds);
     }
 
-    protected override void Init(LevelGenerator levelGenerator) {
-        _levelGenerator = levelGenerator;
+    void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject.CompareTag("Player")) {
+            TriggerFall();
+        }
     }
 
     public void SetPosition(Vector3 newPosition) {
@@ -58,6 +45,9 @@ public class Cube : MonoBehaviour<LevelGenerator> {
     }
 
     public void SpawnActions() {
+        // stop fall process if cube is spawned while falling
+        StopCoroutine(Fall());
+
         _body.isKinematic = true;
         _boxCollider.enabled = true;
         gameObject.SetActive(true);
@@ -65,9 +55,8 @@ public class Cube : MonoBehaviour<LevelGenerator> {
     }
 
     public void DeactivationActions() {
-        gameObject.SetActive(false);
-        _isBelowRespawnHeight = false;
         ResetToOriginalColor();
+        gameObject.SetActive(false);
     }
 
 
@@ -77,11 +66,14 @@ public class Cube : MonoBehaviour<LevelGenerator> {
 
     private IEnumerator Fall() {
         touchedFeedback.PlayFeedbacks();
-        yield return new WaitForSeconds(Random.Range(0, 0.5f));
+        // short time between touching and falling trigger
+        yield return new WaitForSeconds(0.25f);
         fallingFeedback.PlayFeedbacks();
         yield return _fallDelayWaitForSeconds;
         _boxCollider.enabled = false;
         _body.isKinematic = false;
+        yield return _fallDurationWaitForSeconds;
+        DeactivationActions();
     }
 
     private void ResetToOriginalColor() {

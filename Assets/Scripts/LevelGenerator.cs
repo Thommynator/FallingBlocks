@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,27 +16,33 @@ public class LevelGenerator : MonoBehaviour {
     private Vector3 _minCoordinates;
 
     private WaitForSeconds _waitForTwoSeconds;
+    private float spawnHeight = 0;
 
     void Awake() {
         Instance = this;
         _map = new Dictionary<Vector2Int, Cube>();
-        _cubePool = new CubePool(cubePrefab, rows * cols, Mathf.RoundToInt((rows * cols) * 1.3f));
     }
 
     void Start() {
         var halfCols = cols / 2;
-        _minCoordinates = new Vector3(-halfCols, 0, 0);
-        _maxCoordinates = new Vector3(halfCols, 0, rows);
+        _minCoordinates = new Vector3(-halfCols, spawnHeight, 0);
+        _maxCoordinates = new Vector3(halfCols, spawnHeight, rows);
 
         for (var col = 0; col < cols; col++) {
             for (var row = 0; row < rows; row++) {
-                CreateNewCubeAtIfNotExisting(new Vector3(col - halfCols, 0, row));
+                CreateNewCube(new Vector3(col - halfCols, spawnHeight, row));
             }
         }
     }
 
-    private bool ExistsCubeAt(Vector3 position) {
-        return _map.ContainsKey(position.To2dInt());
+    public void EnableCube(Vector2Int position) {
+        var cube = _map.GetValueOrDefault(position, null);
+        if (cube == null || cube.isActiveAndEnabled) {
+            return;
+        }
+
+        cube.SetPosition(new Vector3(position.x, spawnHeight, position.y));
+        cube.SpawnActions();
     }
 
     private Cube GetRandomCube() {
@@ -48,25 +53,16 @@ public class LevelGenerator : MonoBehaviour {
         return GetRandomCube().transform.position;
     }
 
-    public void CreateNewCubeAtIfNotExisting(Vector3 position) {
-        if (ExistsCubeAt(position) || !IsInBounds(position)) {
+
+    private void CreateNewCube(Vector3 position) {
+        if (!IsInBounds(position)) {
             return;
         }
 
-        Vector2Int position2D = position.To2dInt();
-
-        var cube = _cubePool.Get();
-        cube.SetPosition(new Vector3(position2D.x, 0, position2D.y));
+        var cube = Instantiate(cubePrefab);
+        cube.SetPosition(position);
         cube.SetParentTo(transform);
-        SetCubeAt(cube, position2D);
-    }
-
-    public IEnumerator ResetCube(Cube cube) {
-        // first mark the Cube position in the grid as free, which allows a respawn,
-        // later release the Cube back to the pool, i.e. the block can fall down while another one is spawned again
-        _map.Remove(cube.transform.position.To2dInt());
-        yield return _waitForTwoSeconds;
-        _cubePool.Release(cube);
+        SetCubeAt(cube, position.To2dInt());
     }
 
     private void SetCubeAt(Cube cube, Vector2Int position) {

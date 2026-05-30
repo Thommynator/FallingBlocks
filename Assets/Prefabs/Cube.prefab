@@ -137,6 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fallDelaySeconds: 0.2
+  fallDurationSeconds: 1
   spawnFeedback: {fileID: 5701324292788640942}
   touchedFeedback: {fileID: 6984116154646267617}
   fallingFeedback: {fileID: 2219325232872847845}
@@ -342,7 +343,7 @@ MonoBehaviour:
         Active: 1
         UniqueID: 926383744
         Label: Flicker
-        OriginalLabel: 
+        OriginalLabel: Flicker
         ChannelMode: 0
         Channel: 0
         MMChannelDefinition: {fileID: 0}
@@ -1448,7 +1449,7 @@ MonoBehaviour:
         Active: 1
         UniqueID: -10657636
         Label: Heat Material
-        OriginalLabel: 
+        OriginalLabel: Material
         ChannelMode: 0
         Channel: 0
         MMChannelDefinition: {fileID: 0}
@@ -1566,7 +1567,7 @@ MonoBehaviour:
         Active: 0
         UniqueID: 1159719605
         Label: Sound
-        OriginalLabel: 
+        OriginalLabel: Sound
         ChannelMode: 0
         Channel: 0
         MMChannelDefinition: {fileID: 0}

@@ -224,9 +224,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementProperties: {fileID: 11400000, guid: 284d3bd9ba3174244954ffbeac4bbe71, type: 2}
-  _repairRange: 3
-  _repairIntervalSeconds: 0.05
-  _followDistanceThreshold: 10
+  repairRange: 3
+  repairIntervalSeconds: 0.05
+  followDistanceThreshold: 10
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &8956379863018549809
 GameObject:
   m_ObjectHideFlags: 0
