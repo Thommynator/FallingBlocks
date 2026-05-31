@@ -19,6 +19,19 @@ public class Bomb : MonoBehaviour {
         }
     }
 
+
+    void OnCollisionEnter(Collision collision) {
+        if (_isTriggered) {
+            return;
+        }
+
+        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Cube")) {
+            _explosion.Explode();
+            _isTriggered = true;
+            BombPool.Instance.ReleaseBomb(this);
+        }
+    }
+
     public void SetGameObjectActive() {
         gameObject.SetActive(true);
     }
@@ -73,18 +86,5 @@ public class Bomb : MonoBehaviour {
 
     public void ResetTrigger() {
         _isTriggered = false;
-    }
-
-
-    void OnCollisionEnter(Collision collision) {
-        if (_isTriggered) {
-            return;
-        }
-
-        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Cube")) {
-            _explosion.Explode();
-            BombPool.Instance.ReleaseBomb(this);
-            _isTriggered = true;
-        }
     }
 }

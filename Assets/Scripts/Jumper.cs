@@ -74,7 +74,7 @@ public class Jumper : MonoBehaviour<CollectablesManager> {
 
         if (!_collectablesManager.TryToUseSpecialMobility()) return;
         dashFeedback.PlayFeedbacks();
-        _body.AddForce(_body.linearVelocity.normalized * jumpProperties.dashForceFactor, ForceMode.Impulse);
+        _body.AddForce((_body.linearVelocity.normalized + Vector3.up * 0.5f) * jumpProperties.dashForceFactor, ForceMode.Impulse);
     }
 
     private bool IsInLayerMask(GameObject obj, LayerMask layerMask) {

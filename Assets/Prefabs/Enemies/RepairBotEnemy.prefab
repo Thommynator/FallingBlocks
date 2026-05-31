@@ -226,7 +226,7 @@ MonoBehaviour:
   movementProperties: {fileID: 11400000, guid: 284d3bd9ba3174244954ffbeac4bbe71, type: 2}
   repairRange: 3
   repairIntervalSeconds: 0.05
-  followDistanceThreshold: 10
+  followDistanceThreshold: 15
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 256

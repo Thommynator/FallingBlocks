@@ -8,7 +8,6 @@ public class LevelGenerator : MonoBehaviour {
     [SerializeField] private Cube cubePrefab;
     [SerializeField] private int rows;
     [SerializeField] private int cols;
-    private CubePool _cubePool;
 
     private Dictionary<Vector2Int, Cube> _map;
     private Vector3 _maxCoordinates;
