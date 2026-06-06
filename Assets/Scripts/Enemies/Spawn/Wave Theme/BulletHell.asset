@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 0031ebd63e87421abb6350f08f9026c2, type: 3}
   m_Name: BulletHell
   m_EditorClassIdentifier: Assembly-CSharp:ScriptableObjects:SpawnWave
   spawnProperties:
   - {fileID: 11400000, guid: 077ebfff0c8b47a409617d1aa75118d6, type: 2}
-  waveDurationSeconds: 20
+  waveDurationSeconds: 15
