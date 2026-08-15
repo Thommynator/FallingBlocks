@@ -14,7 +14,7 @@ namespace MoreMountains.Feedbacks
 {    
 	/// <summary>
 	/// This feedback will let you play a sound via the MMSoundManager. You will need a game object in your scene with a MMSoundManager object on it for this to work.
-	/// </summary>
+	/// </summary>	
 	[ExecuteAlways]
 	[AddComponentMenu("")]
 	[MovedFrom(false, null, "MoreMountains.Feedbacks.MMTools")]

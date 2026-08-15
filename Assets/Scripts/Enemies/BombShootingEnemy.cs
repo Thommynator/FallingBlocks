@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Enemies {
     public class BombShootingEnemy : FollowerEnemy {
@@ -25,13 +26,21 @@ namespace Enemies {
             _barrel.transform.LookAt(target.transform.position);
         }
 
+        private void OnDrawGizmos() {
+            Debug.DrawLine(transform.position, GetPredictedTargetPosition(), Color.blue, 2f);
+        }
+
         private IEnumerator Fire() {
             while (true) {
                 Bomb bomb = BombPool.Instance.GetBomb();
                 bomb.transform.position = transform.position + Vector3.up;
-                bomb.FireTo(target.transform.position, _shootingAngleInDeg);
+                bomb.FireTo(GetPredictedTargetPosition(), _shootingAngleInDeg);
                 yield return _shootingCooldownWaitForSeconds;
             }
+        }
+
+        private Vector3 GetPredictedTargetPosition() {
+            return target.transform.position + targetRigidbody.linearVelocity * Random.Range(0f, 2f);
         }
     }
 }

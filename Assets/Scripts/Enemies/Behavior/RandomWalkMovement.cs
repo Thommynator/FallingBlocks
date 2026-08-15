@@ -25,7 +25,7 @@ namespace Enemies.Behavior {
         }
 
         private Vector3 GetRandomTarget() {
-            return LevelGenerator.Instance.GetRandomCubePosition();
+            return LevelGenerator.Instance.GetRandomCubePosition(enabledOnly:false);
         }
     }
 }

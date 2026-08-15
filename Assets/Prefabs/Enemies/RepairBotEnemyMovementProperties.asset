@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: RepairBotEnemyMovementProperties
   m_EditorClassIdentifier: 
   maxSpeed: 3
-  steeringForce: 3
+  steeringForce: 6

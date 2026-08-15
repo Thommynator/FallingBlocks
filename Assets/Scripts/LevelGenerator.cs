@@ -48,8 +48,16 @@ public class LevelGenerator : MonoBehaviour {
         return _map.ElementAt(Random.Range(0, _map.Count)).Value;
     }
 
-    public Vector3 GetRandomCubePosition() {
-        return GetRandomCube().transform.position;
+    private Cube GetRandomEnabledCube() {
+        var enabledCubes = _map.Values.Where(cube => cube.enabled).ToList();
+        return enabledCubes.ElementAt(Random.Range(0, enabledCubes.Count));
+    }
+
+    public Vector3 GetRandomCubePosition(bool enabledOnly = true) {
+        var cube = enabledOnly ? GetRandomEnabledCube() : GetRandomCube();
+        var position = cube.transform.position;
+        // hard set Y to 0, because fallen (disabled) blocks may have negative Y 
+        return new Vector3(position.x, 0, position.z);
     }
 
 

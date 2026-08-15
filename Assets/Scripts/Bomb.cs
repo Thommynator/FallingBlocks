@@ -1,3 +1,4 @@
+using MoreMountains.Feedbacks;
 using UnityEngine;
 
 public class Bomb : MonoBehaviour {
@@ -6,10 +7,13 @@ public class Bomb : MonoBehaviour {
 
     // a bomb was triggered several times when colliding with more than one object, which caused problems
     private bool _isTriggered;
+    private MMF_Player _launchAndFlightFx;
 
     void Awake() {
         _body = GetComponent<Rigidbody>();
         _explosion = GetComponentInChildren<Explosion>();
+        _launchAndFlightFx = GetComponentInChildren<MMF_Player>();
+        _launchAndFlightFx.Initialization();
     }
 
     void Update() {
@@ -28,6 +32,7 @@ public class Bomb : MonoBehaviour {
         if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Cube")) {
             _explosion.Explode();
             _isTriggered = true;
+            // _launchAndFlightFx.StopFeedbacks();
             BombPool.Instance.ReleaseBomb(this);
         }
     }
@@ -37,6 +42,7 @@ public class Bomb : MonoBehaviour {
     }
 
     public void SetGameObjectInactive() {
+        // _launchAndFlightFx.StopFeedbacks();
         gameObject.SetActive(false);
     }
 
@@ -49,6 +55,9 @@ public class Bomb : MonoBehaviour {
     }
 
     public void FireTo(Vector3 target, float shootingAngleInDeg) {
+        Debug.Log("Play rocket launch sounds");
+        _launchAndFlightFx.PlayFeedbacks();
+
         Vector3 shootingVelocity = GetShootingVelocityVector(target - transform.position, shootingAngleInDeg);
         if (float.IsNaN(shootingVelocity.x) || float.IsNaN(shootingVelocity.y) || float.IsNaN(shootingVelocity.z)) {
             return;

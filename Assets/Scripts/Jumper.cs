@@ -9,6 +9,7 @@ public class Jumper : MonoBehaviour<CollectablesManager> {
     [SerializeField] private JumpProperties jumpProperties;
     [SerializeField] private MMF_Player spaceJumpFeedback;
     [SerializeField] private MMF_Player dashFeedback;
+    [SerializeField] private MMF_Player jumpFeedback;
 
     [SerializeField] private LayerMask groundLayerMask;
 
@@ -42,6 +43,8 @@ public class Jumper : MonoBehaviour<CollectablesManager> {
         if (_isJumping || !CanCoyoteJump()) {
             return;
         }
+
+        jumpFeedback.PlayFeedbacks();
 
         // I'm not using the suggested OverlapSphereNonAlloc because then I need to pre-allocate the array size and I have the clear the array after use
         var cubeColliders = Physics.OverlapSphere(_body.position, jumpProperties.blastRadius, groundLayerMask);
